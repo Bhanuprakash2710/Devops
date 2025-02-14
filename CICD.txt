@@ -1,0 +1,10 @@
+* Countinous Integration is a process where code will automatically Build , Test and download the artifacts.
+* Stages in CI are code -> Fetch -> Build -> Test -> Notify -> FeedBack -> Code -> ---
+* Goal of CI is to detect the bugs or error at the start of the project.
+* Countinous Delivery is automatic process where the build code is countinously deployed into servers  quickly and efficiently.
+* Stages in CD are DeployToDev -> Test in Dev -> send to stagging -> Test in satgging -> Send to prod.
+
+
+
+
+

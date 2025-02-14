@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: dbadmin
+      MONGO_INITDB_ROOT_PASSWORD: dbadmin
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - /data/mongodb_data:/data/db
+      - /data/mongodb_data/mongo.key:/data/mongo.key
+    command: ["--auth", "--bind_ip_all", "--replSet", "rs0", "--keyFile", "/data/mongo.key"]
+
+volumes:
+  mongodb_data:
+

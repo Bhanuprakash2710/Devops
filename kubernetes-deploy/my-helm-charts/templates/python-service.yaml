@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "my-helm-charts.fullname" . }}-python-service
+  labels:
+    app: python-app
+    tier: frontend
+  {{- include "my-helm-charts.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.pythonService.type }}
+  selector:
+    app: python-app
+  {{- include "my-helm-charts.selectorLabels" . | nindent 4 }}
+  ports:
+	{{- .Values.pythonService.ports | toYaml | nindent 2 }}

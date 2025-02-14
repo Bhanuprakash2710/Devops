@@ -1,0 +1,35 @@
+apiversion: apps/v1
+kind: Deployment
+metadata:
+  name: acc-spec
+  namespace: {{ .valuies.namespace }}
+  labels:
+    app: acc-spec
+spec: 
+  replicas: 1
+  selector:
+    matchLabels:
+      app: acc-spec
+  template:
+    metadata:
+      labels:
+        app: acc-spec
+    spec:
+      conatiners:
+        - name:
+          image:
+          imagePullPolicy:
+          ports:
+            - conatainerport:
+          envFrom:
+            - configMapRef:
+                name: configmap-name
+          resources:
+            requests: 
+              memory:
+              cpu: 
+            limits:
+              memory:
+              cpu: 
+      imagepullsecrets:
+        - name: 

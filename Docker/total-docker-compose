@@ -1,0 +1,240 @@
+version: "3.6"
+
+services:
+  af-dbmigrator:
+    image: gitlabnew.techwave.net:5050/fintrust/af-dbmigrations:0.20.0
+    pull_policy: always
+    container_name: af-dbmigrator
+    env_file: "af-dbmigrator.env"
+    #restart: always
+    ports:
+      - "8094:8080"
+    networks:
+      - appnet
+
+  af-funds:
+    image: gitlabnew.techwave.net:5050/fintrust/af-funds-quarkus:0.20.0
+    pull_policy: always
+    container_name: af-funds
+    env_file: "af-funds.env"
+    restart: always
+    ports:
+      - "8098:8080"
+    depends_on: 
+      - af-dbmigrator
+    networks:
+      - appnet
+
+  af-profile:
+    image: gitlabnew.techwave.net:5050/fintrust/af-profile:0.20.0
+    pull_policy: always
+    container_name: af-profile
+    env_file: "af-profile.env"
+    restart: always
+    ports:
+      - "8081:8080"
+    depends_on: 
+      - af-dbmigrator
+    networks:
+      - appnet
+
+  af-portfolio:
+    image: gitlabnew.techwave.net:5050/fintrust/af-portfolio:0.20.0
+    pull_policy: always
+    container_name: af-portfolio
+    env_file: "af-portfolio.env"
+    restart: always
+    ports:
+      - "8082:8080"
+    depends_on: 
+      - af-dbmigrator
+    networks:
+      - appnet
+
+  af-adminportal:
+    image: gitlabnew.techwave.net:5050/fintrust/af-admin-portal
+    pull_policy: always
+    container_name: af-adminportal
+    env_file: "af-adminportal.env"
+    restart: always
+    ports:
+      - "8083:8081"
+    depends_on: 
+      - af-dbmigrator
+    networks:
+      - appnet
+
+  af-apidocs:
+    image: gitlabnew.techwave.net:5050/fintrust/af-apidocs:0.20.0
+    pull_policy: always
+    container_name: af-apidocs
+    env_file: "af-apidocs.env"
+    restart: always
+    ports:
+      - "8084:8080"
+    depends_on: 
+      - af-dbmigrator
+    networks:
+      - appnet
+
+  af-calculators:
+    image: gitlabnew.techwave.net:5050/fintrust/af-calculators:latest
+    pull_policy: always
+    container_name: af-calculators
+    env_file: "af-calculators.env"
+    restart: always
+    ports:
+      - "8085:3000"
+    depends_on: 
+      - af-dbmigrator
+    networks:
+      - appnet
+
+  af-notifications:
+    image: gitlabnew.techwave.net:5050/fintrust/af-notifications:0.20.0
+    pull_policy: always
+    container_name: af-notifications
+    env_file: "af-notifications.env"
+    restart: always
+    ports:
+      - "8086:8080"
+    depends_on: 
+      - af-dbmigrator
+    networks:
+      - appnet
+
+  af-site:
+    image: gitlabnew.techwave.net:5050/fintrust/af-site:latest
+    pull_policy: always
+    container_name: af-site
+    env_file: "af-site.env"
+    restart: always
+    ports:
+      - "8087:8080"
+    depends_on: 
+      - af-dbmigrator
+    networks:
+      - appnet
+
+  af-spa:
+    image: gitlabnew.techwave.net:5050/fintrust/af-spa:latest
+    pull_policy: always
+    container_name: af-spa
+    env_file: "af-spa.env"
+    restart: always
+    ports:
+      - "8088:8080"
+    depends_on: 
+      - af-dbmigrator
+    networks:
+      - appnet
+
+  af-strapi:
+    image: gitlabnew.techwave.net:5050/fintrust/af-strapi:latest
+    pull_policy: always
+    container_name: af-strapi
+    env_file: "af-strapi.env"
+    restart: always
+    ports:
+      - "8089:1337"
+    depends_on: 
+      - af-dbmigrator
+    networks:
+      - appnet
+
+  af-tickets:
+    image: gitlabnew.techwave.net:5050/fintrust/af-tickets:0.20.0
+    pull_policy: always
+    container_name: af-tickets
+    env_file: "af-tickets.env"
+    restart: always
+    ports:
+      - "8090:8080"
+    depends_on: 
+      - af-dbmigrator
+    networks:
+      - appnet
+
+  af-dlqprocessor:
+    image: gitlabnew.techwave.net:5050/fintrust/af-dlq-processor:0.20.0
+    pull_policy: always
+    container_name: af-dlqprocessor
+    env_file: "af-dlqprocessor.env"
+    restart: always
+    ports:
+      - "8091:8080"
+    depends_on: 
+      - af-dbmigrator
+    networks:
+      - appnet
+
+  af-event-publisher:
+    image: gitlabnew.techwave.net:5050/fintrust/af-event-publisher:0.20.0
+    pull_policy: always
+    container_name: af-event-publisher
+    env_file: "af-event-publisher.env"
+    restart: always
+    ports:
+      - "8092:8080"
+    depends_on: 
+      - af-dbmigrator
+    networks:
+      - appnet
+
+  af-mfu-session-provider:
+    image: gitlabnew.techwave.net:5050/fintrust/mfu-session-provider:0.20.0
+    pull_policy: always
+    container_name: af-mfu-session-provider
+    env_file: "af-mfu-session-provider.env"
+    restart: always
+    ports:
+      - "8093:8080"
+    depends_on: 
+      - af-dbmigrator
+    networks:
+      - appnet
+
+  acc-api:
+    image: gitlabnew.techwave.net:5050/fintrust/accounting/acc-api-quarkus:1.24.5
+    pull_policy: always
+    container_name: acc-api
+    env_file: "acc-api.env"
+    restart: always
+    ports:
+      - "8095:8080"
+    networks:
+      - appnet
+
+  acc-bo:
+    image: gitlabnew.techwave.net:5050/fintrust/accounting/acc-bo:1.24.5
+    pull_policy: always
+    container_name: acc-bo
+    env_file: "acc-bo.env"
+    restart: always
+    ports:
+      - "8096:8080"
+    networks:
+      - appnet
+
+  acc-analytics:
+    image: gitlabnew.techwave.net:5050/fintrust/accounting/acc-analytics:1.24.5
+    pull_policy: always
+    container_name: acc-analytics
+    env_file: "acc-analytics.env"
+    restart: always
+    ports:
+      - "8097:5000"
+    networks:
+      - appnet
+      
+  #acc-dbmigrator:
+  #  image: gitlabnew.techwave.net:5050/fintrust/af-dbmigrations:latest
+  #  container_name: acc-dbmigrator
+  #  env_file:
+  #  restart: always
+  #  ports:
+  #    - "
+
+networks:
+   appnet:
+

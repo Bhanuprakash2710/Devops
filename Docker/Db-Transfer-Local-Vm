@@ -1,0 +1,19 @@
+* mysqldump -u root -p --databases your_database_name > your_database_name.sql  // Go to your local db and generate the sql scripts for the database using the given command.
+
+* scp your_database_name.sql azureuser@your-vm-ip:/home/azureuser/   // Run the command to copy the .sql file to your Azure VM
+
+* ssh azureuser@your-vm-ip // ssh into the vm
+
+* mysql -u root -p   // login into the mysql
+
+* CREATE DATABASE your_database_name;   //  create the database
+
+* Exit mysql and enter the below command 
+
+* mysql -u root -p your_database_name < /home/azureuser/your_database_name.sql
+
+* Now login to Db and verify the database, tables and table schemas.
+
+
+
+

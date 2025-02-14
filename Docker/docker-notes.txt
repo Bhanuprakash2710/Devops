@@ -1,0 +1,88 @@
+* Docker is a container technology. A Tool for creating and managing containers.
+
+* In Dockerfile we use COPY and ADD to copy the files from host system to docker images .
+
+* We use COPY command to copy only the files .
+
+* But we use ADD command to copy files and also copt the executable files (like .jar files).
+
+* In Dockerfile we use  both CMD and ENTRYPOINT define commands to be run when a container starts, but they behave differently.
+
+* If we use CMD command , it specifies the default command and arguments for the container, and It can be overridden by passing a command at the end of the docker run command.
+
+* If we use CMD command it will override the content in the dockerfile and only use while given at docker run.
+
+* If we use ENTRYPOINT command , It specifies the main executable for the container, which cannot be overridden easily.
+
+* Overridable: Arguments can be appended but not the executable itself unless you use the --entrypoint flag in docker run.
+
+* If we use ENTRYPOINT command it wont override the data , it will append the data .
+
+* Docker Engine is responsible to maintain and create the containers.
+
+* To get the details of a running container use -> docker exec container-name/id cat /etc/hosts
+
+* docker run -d is used to run docker container in detached mode i.e running docker container in background.
+
+* If we run docker container without -d detached mode then the container will run on the cli until the container stops. It will disturb in using another commands and operations.
+
+* so it is recomanded to use -d detached mode when you run a docker container.
+
+* To remove an docker image use -> docker rmi image-name.
+
+* To inspect the container use -> docker inspect container-name/id
+
+* map port 8080 on the container to 38282 on the host. -> -p 38282:8080.
+
+* To set environment variable to run command use -> docker run -d -e environmental_variable=value image_name
+
+* docker run -d --name webapp --network wep-sql-network -e DB-HOST=db-host -e DB-PASSWORD=db_pass123 --link mysqldb:mysqldb bhanuprakash2710/python-app:v1
+
+
+*************** To see the docker container by going into its directories use -> sudo -i  ***************************************
+
+
+***************************************** volumes *************************************
+
+* In docker the data will be stored inside of the container i.e in read-write layer. It is stored with the help of volumes.
+
+* Volumes will be used when the container is stopped suddenly the data loss should not happen , so the data will be stored inside of container.
+
+* You can set up volumes to connect some folder outside of a container to a folder inside of a container.
+
+* We use bindmount to provide live data to the container i.e no rebuilding of image is required.
+
+* to check the data inside volumes -> cd /var/lib/docker/volumes/<volume_name>/_data
+
+* 
+
+
+***************************************** Network *************************************
+
+* Using network container to container communication will happen 
+
+* A container needs to communicate with any www page there will be no extra settings.
+
+* For example there is outside api where the application needs to communicate with it , then there will be no issue in communication.
+
+* To create a network in docker use docker create network network-name 
+
+* To check the environment variables in a container use -> docker inspect command.
+
+* To check what networks runs in the current system use -> docker network ls
+
+* To check network details of specific container use -> docker inspect container-id/name . In that under networks section.
+
+* Also use this command for networks -> docker network ls and docker network inspect network-name
+
+* If a database in a centralized system and we need to communicate with it using docker container we can use 
+  environment:
+  - DB_HOST=192.168.1.10
+  - DB_PORT=1521
+  - DB_USER=yourusername
+  - DB_PASS=yourpassword
+
+* 
+
+
+

@@ -1,0 +1,21 @@
+************************************************************************************ sonarqube **********************************************
+
+* sonarqube is opensource tool for code quality check and we can integrate sonarqude with ci/cd.
+* When a developer commits code, the CI/CD pipeline triggers a build, and SonarQube performs a code analysis. The SonarQube Scanner runs against the source code, analyzing it according to the rules defined in SonarQube.
+
+
+************************************************************************************ docker compose ****************************************************
+
+* docker compose is used to run multi-containers using a single source.
+* For example we can run a python app and a mysql database in a single source.
+* create .yml file and instructions to run both images in a single source.
+* docker compose build to the multi-container.
+ docker compose up will run the multi-container.
+ 
+ 
+ ********************************************************************************** minikube *************************************************************
+ 
+* Minikube is an open source tool that allows you to set up a single-node Kubernetes cluster on our local machine. The cluster is run inside a virtual machine and includes Docker, allowing us to run containers inside the node.
+* 
+
+

@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "my-helm-charts.fullname" . }}-html-app
+  labels:
+    app: html-app
+    tier: frontend
+  {{- include "my-helm-charts.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.htmlApp.replicas }}
+  selector:
+    matchLabels:
+      app: html-app
+    {{- include "my-helm-charts.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: html-app
+        tier: frontend
+      {{- include "my-helm-charts.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.htmlApp.htmlApp.image.repository }}:{{ .Values.htmlApp.htmlApp.image.tag
+          | default .Chart.AppVersion }}
+        name: html-app
+        ports:
+        - containerPort: 80
+        resources: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "my-helm-charts.fullname" . }}-python-app
+  labels:
+    app: python-app
+    tier: frontend
+  {{- include "my-helm-charts.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.pythonApp.replicas }}
+  selector:
+    matchLabels:
+      app: python-app
+    {{- include "my-helm-charts.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: python-app
+        tier: frontend
+      {{- include "my-helm-charts.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.pythonApp.pythonApp.image.repository }}:{{ .Values.pythonApp.pythonApp.image.tag
+          | default .Chart.AppVersion }}
+        name: python-app
+        ports:
+        - containerPort: 5000
+        resources: {}

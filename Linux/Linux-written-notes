@@ -1,0 +1,268 @@
+Os details:
+PRETTY_NAME="Ubuntu 22.04.4 LTS"
+NAME="Ubuntu"
+VERSION_ID="22.04"
+VERSION="22.04.4 LTS (Jammy Jellyfish)"
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=jammy
+
+* ~ represents the home directory
+
+* /usr where are the software files will be stored
+
+* /bin will contains all the commands used by the user
+
+* /sbin will contains the commands used by super user i.e root user 
+
+* /var contains mails and log files
+
+* uptime command will tell how from how long the system is up and running
+
+* cat > file1 will remove the existing data and append new data 
+
+* cat >> file1 will append the new data at the end 
+
+* file file-name will give the which kind of file it is
+
+* history command will give all the commands executed by that user
+
+* 
+
+***************************************** cp rm  mv ************************************************
+
+
+* rmdir removes empty directory
+* rm -rf directoty-name removes the files in the entire directory.
+* rm -r directory-name removes the entire directory.
+* to rename a file use mv cmd . ex you want to rename a one.txt to hello.txt use mv one.txt hello.txt.
+* cat a.txt b.txt c.txt d.txt >> abcd.txt cmd will combine a.txt,b.txt,c.txt and d.txt and appends to abcd.txt . this is example for output redirection.
+
+* cp file1 file2  copies the content of file1 into file2
+
+* cp -r dir1 dir2 to copy the entire data of a directory use -r command 
+
+***************************************** ls ************************************************
+
+
+* ls -l gives the details about all files. l stands for longlisting.
+* ls -a displays all the hidden files
+* ls -la displays all the hidden files and gives details about it
+* ls -F displays file types that includes all directories, files,links . so / defines directories, @ defines links, * excecutable
+* ls -lt displays all files details in sorted form with respect to date. t stands  for time.
+
+***************************************** file-permissions ************************************************
+
+
+* format for permissions is Read(r) Write(w) Execute(x) and categories User(u) Group(g) others(o) and all (a)
+* to change the permissions for file we chmod command. chmod stands for change mode.
+* Example chmod a=rwx file-name. this command tells us that all the users should be given read write and execute permissions i.e the users groups and others.
+* To change group name use chgrp group-name file-name.
+* to change user use sudo chown owner-name file-name.
+
+***************************************** FInd and wildcards ************************************************
+
+
+* * will match any character from 0 to any . ex:- mv *.txt textfolder . This will move all the txt files to text folder.
+* Basically * indicates all .
+* Locate command is faster than find command.
+* To find the files or directories with a pattern i.e ending with .txt or starting with a letter and ect,. Example check all the files has .txt extention use ls *.txt .
+* To find a file starts with a use ls a* and file starts with a and has .txt as extention use ls a*.txt
+* ? will matches any single character in a filename or directory name. Example ls file?.txt , then it would match file1.txt, file2.txt, but not file12.txt.
+* [] used find file or directories in that bracket . example find a file starts with a to d use ls [a-d]. find the files starts with a and second char may in between owels and ends with t use ls a[aeiou]t.
+* there are some built in functions also [[:digit:]] and etc,.
+* in realtime use these wildcards to remove or move or copy certain pattern files . Example we want to delete all .txt files in a directory use rm *.txt . and u want move all files starting with a to another directory use mv a* Bhanu.
+
+*************************************************** grep **************************************************************
+
+* grep stand for global regular expression print
+* grep cmd is used search any char in a file. It also has few options like -i performs search by ignoring case.
+* c performs search and tells the no of occcurances of that char.n predicts the output with lines.v performs search gives the char that not match in the file.
+* to convert any binary or non-readable file to string use strings filename.
+
+*************************************************** Redirection ****************************************************
+
+* ls > filename. Instead of displaying the data in o/p format it will store the data in the filename. i.e in filename ls data will be stored.
+* > will override the existing data .
+* >> will append the data in the file.
+* 
+
+
+
+*************************************************** pipes *****************************************************************************
+
+
+* pipes is a powerful cmd denoted by '|' . ex: grep o file-name | cut -d ':' -f1,2 .
+
+* pipes are mostly used with grep commands 
+
+* ls | grep -i file
+
+* ps -ef | grep -i openobserve
+
+***************************************************** Disk Management ********************************************************************
+
+
+* The ‘df‘ command stands for “disk filesystem“, it is used to get a full summary of available and used disk space usage of the file system on the Linux system. 
+* If we use df -h , it will give the summary of disk usgae in human readadble format.
+* ‘du‘ (Disk Usage) is used to check the disk usage information of files and directories on a machine. 
+* du -sh filename or directory name will give the amount of space used by specific directory .
+* du -h directory name will list all the files in the directory and gives the memory used by each file.
+* free -m will display the Amount of space used and left in the system. i.e Ram usage.
+* df will be used for 
+
+
+******************************************************* alias *****************************************************************************
+
+
+* to add alias to any cmd use alias alias cmd='main-cmd' . ex to clear screen we use clear cmd instead we want clr use alias clr='clear'.
+
+
+****************************************************** Head and tail ***************************************
+* head file-name displays first 10 lines of that file. 
+* head -5 file-name displays first 5 lines. 
+* tail file names displays last 10 lines.
+* tail -5 file-name displays last 5 lines.
+
+************************************************************ awk **************************************************************
+
+* awk cmd will display table data. ex:- awk {print} file-name.
+* awk cmd is used to search specified pattern in a file. syntax : awk '{print}' employee.txt will print the data in employee.txt file.
+* awk '/manager/ {print}' employee.txt will print only the lines which contains the word manager.
+* if a line has 4 words they will store as $1,$2,$3 and $4 and also $0 will contains the entire data of the file .
+* awk '{print $1,$4}' employee.txt will print the 1st and 4th word in the file.
+* awk has more options like
+* NR will print the numbers for each line ex:- awk '{print NR,$0}' employee.txt
+* NF will print the last word in the files .
+* To print the first item along with the row number(NR) separated with ” – “ from each line in geeksforgeeks.txt:  
+* awk '{print NR "- " $1 }' geeksforgeeks.txt 
+* To count the lines in a file:  
+* awk 'END { print NR }' geeksforgeeks.txt  
+* you only want print 2nd column use awk {print $2} file-name.
+* you only want male persons in that table use awk '/m/ {print}' file-name.
+
+
+********************************************************* sed *******************************************************************
+
+* By using SED you can edit files even without opening them, which is much quicker way to find and replace something in file, than first opening that file in VI Editor and then changing it.
+* sed 's/unix/linux/' geekfile.txt will replace unix with linux in the first occurance only.
+* $sed 's/unix/linux/2' geekfile.txt will replace unix with linux in 2nd occurance only .
+* $sed 's/unix/linux/g' geekfile.txt will replace unix with linux in entire file. 
+* sed will also delete a particlular line in the file without opening it . sed '5d' file-name will delete the 5th line in the file.
+* To Delete line from range x to y
+  Syntax:
+  sed 'x,yd' filename.txt
+  
+  
+*************************************************************** xargs *************************************************************
+
+* xargs will take take the output of previous cmd as argument not as input.
+* In case of pipe the the output of previous cmd will be taken as input for the present cmd.
+* ex ls | cat will give will give all the file names in pwd .
+* where ls | xargs cat will give the output as the data inside the files.
+ 
+
+
+*********************************************************** command substitution *********************************************
+
+* syntax $(command) . ex:- a=$(ls) now instead of ls we can use echo $a
+
+************************************************************ user input *********************************************************
+
+* read -p "enter your name: " name . 
+  bhanu.
+* now p stores name=bhanu.
+* we can access echo ${name} or echo $name
+* difference between a=$
+
+******************************************************* apt *************************************************
+* apt is package manager it used to install or remove any applications or software .
+* sudo apt update will install the new dependencies and will keep the system upto date.
+* To install any software use sudo apt install software-name .
+* 
+
+******************************************************* PROCESS *****************************
+
+* ps stands for processess status 
+
+* ps to list all process 
+
+* ps -A or ps -e to list only running process 
+
+* ps -ef to list process in fullu-formatted list i.e f stands for fully-formated and It is mostly used.
+
+* ps -fp pid , will display the process of the given process id.
+
+* ps -fp pid1,pid2,pid3 to display multiple process.
+
+* To kill a process use -> kill -9 pid
+
+
+************************************************************************  Shell scripting ***********************************************************************************
+
+
+* if [condition]; then
+    ------
+    
+    elif [condition]; then
+    -----
+  else 
+    -------
+    
+* -eq means equals =
+* -gt means greaterthan >
+* -lt means lessthan <
+* -o or and -a and 
+* -e file exists , ! -e not exists
+* -d is a directory
+* -r file is readable
+* -w file is writeable
+* -x file is executable
+* -s file is not empty
+* -z string  is empty
+
+* for loop  syntax
+  for i in {condition}
+  do 
+     -------------
+  done
+  
+  
+* while loop syntax 
+  while [condition];
+  do 
+    --------
+  done
+  
+* ex for while loop 
+  
+  number=1
+  
+  while [$number -lt 15];
+  
+  do
+   
+    echo " $number "
+    
+    number=$((number+4))
+    
+  done
+  
+  
+* functioins
+
+  syntax :
+  
+  function-name(){
+  
+  
+  ----------                 # function declaration
+  
+  }
+
+  function-name             # function call

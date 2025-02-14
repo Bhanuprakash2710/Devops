@@ -1,0 +1,76 @@
+* Kubectl get pods . To see the list of all pods.
+
+* kubectl get pods -o wide . To see more info about pods.
+
+* kubectl describe pod pod-name . To see the info of a particular pod.
+
+* kubectl run nginx --image=nginx . To  create a pod .
+
+* kubectl create deployment nginx --image=nginx . To create deployment in imperative way.
+
+* kubectl delete pod pod-name . Deletes the pod .
+
+* kubectl create -f replicaset.yml . To apply changes for existing rs.
+
+* kubectl edit rs rs-name . To edit the configured rs .
+
+* kubectl create deployment deployment-name --image=image-name --replicas=no-of-replicas . To create a deployment .
+
+* Ex: kubectl create deployment webapp --image=nginx --replicas=3 .
+
+* kubectl create -f deployment.yml . To create deployment.
+
+* kubectl apply -f deployment.yml . To update the deployment.
+
+* kubectl rollout status deployment/myapp-deployment. To check the status of deployment.
+
+* kubectl rollout history deployment/myapp-deployment. To check the history of deployment 
+
+* kubectl rollout undo deployment/myapp-deployment. To rolLback the deployment.
+
+* kubectl set image deploy deployment-name container-name=new-image-name . To change the image in deployment.
+
+* kubect describe deployment deployment-name . To check the info about deployment.
+
+* for pods ready state 2/2 means container running in pod to the total container is pod.
+
+* In k8s communication between pods within the same node will be done through service i.e cluster ip service.
+
+* For nodeport service there will be three ports 
+  1. Target port -> this is the port of the pod
+  2. port ->   this is the port of service
+  3. Nodeport -> this is the port of node 
+  
+ * To access the node port in browser we can use http:ip of the node:nodeport. Ex: suppose we have a pod running in node of ip 172.16.22.22 and the nodeport of that node is 30008 then use http:172.16.22.22:30008
+ 
+ * suppose the pods are distributed accross the different nodes then we can access with any node ip and its nodeport .
+ 
+ *
+  
+
+
+
+
+
+************************************************* Yaml files ***********************************************
+
+* Api versions for different kinds
+
+      Kind          ApiVersiom
+      
+      pods              v1
+      services          v1
+      Deployment       apps/v1
+      Replicasets      apps/v1
+      
+      
+* To link a deplopyment and a service  copy the labels part of deployment into selectors part of a service.
+* In docker we use networks to communicate with in containers. In k8s we services to communicate with pods.
+
+
+************************************************ Helm *****************************************************
+     
+* Use helmify to convert the kubernetes manifest into helm charts
+* 1. pwd should the deployment-service.yaml files
+* 2. Run cat *.yaml | helmify helm-chart-folder-name
+* 3. Check the files.

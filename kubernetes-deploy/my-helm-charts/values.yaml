@@ -1,0 +1,19 @@
+htmlApp:
+  htmlApp:
+    image:
+      repository: bhanuprakash2710/htmlpage
+      tag: v1
+  replicas: 3
+kubernetesClusterDomain: cluster.local
+pythonApp:
+  pythonApp:
+    image:
+      repository: bhanuprakash2710/python-task
+      tag: v1
+  replicas: 1
+pythonService:
+  ports:
+  - name: http
+    port: 5000
+    targetPort: 5000
+  type: LoadBalancer
