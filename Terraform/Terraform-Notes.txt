@@ -1,0 +1,34 @@
+
+* IAC or Infrastructure as Code allows you to build, change, and manage your infrastructure through coding instead of manual processes. The configuration files are created according to your infrastructure specifications and these configurations can be edited and distributed securely within an organization.
+
+* Terraform helps you manage all of your infrastructures as code and construct it as and when needed.
+
+*  
+
+* terraform init  -> Initializes a Terraform working directory. Downloads provider plugins and sets up the backend.
+
+* terraform validate -> Checks whether the configuration files are syntactically and structurally valid.
+
+* terraform plan -> Shows the changes that will be made before applying them. Helps in reviewing changes before execution.
+
+* terraform apply -> Executes the plan and creates/modifies/deletes resources.
+
+* terraform destory -> removes all the resources defined in the configuration.
+
+* terraform.tfstate file will store the information about all the resources created in specific cloud provider , it is like a database for the resources we have created using terraform.
+
+* By default the terraform.tfstate file will be stored locally, but for more secure and it should be available to everyone we will store cloud storage.
+
+* Terraform has two states , one is current state and another is desired state.
+
+* Current state will be terraform.tfstate file and desired state is .tf files.
+
+* when we use terraform apply cmd then it will compare the both desired state and current state , if they dont match , it will suggest for the changes we made in desired state.
+
+* 
+
+* A Terraform backend is responsible for storing and managing the Terraform state. By default, Terraform stores the state file locally (terraform.tfstate), but a backend allows it to be stored remotely, enabling team collaboration, locking, and security. like we can store in amazon s3 bucket in aws , google buckets in gcp and azure storage bobs in azure. It is mainly used for secure and easy access to team.
+
+* Terraform block or Terraform setting block or terraform configuration block will contain the information about the provider name , the version we are using . In this we should only use static values.
+
+* Terraform provider will have details about the cloud provider like cloud provider name , project id and region .

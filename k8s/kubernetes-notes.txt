@@ -34,6 +34,10 @@
 
 * for pods ready state 2/2 means container running in pod to the total container is pod.
 
+************************************************************************** Services *******************************************************8
+
+* Cluster ip service create a ip inside the cluister , to enable communicate with other front-end services or back-end service.
+
 * In k8s communication between pods within the same node will be done through service i.e cluster ip service.
 
 * For nodeport service there will be three ports 
@@ -42,6 +46,8 @@
   3. Nodeport -> this is the port of node 
   
  * To access the node port in browser we can use http:ip of the node:nodeport. Ex: suppose we have a pod running in node of ip 172.16.22.22 and the nodeport of that node is 30008 then use http:172.16.22.22:30008
+
+* The range of nodeports is 30000-32767 
  
  * suppose the pods are distributed accross the different nodes then we can access with any node ip and its nodeport .
  
