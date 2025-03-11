@@ -1,8 +1,18 @@
 * Countinous Integration is a process where code will automatically Build , Test and download the artifacts.
+
 * Stages in CI are code -> Fetch -> Build -> Test -> Notify -> FeedBack -> Code -> ---
+
 * Goal of CI is to detect the bugs or error at the start of the project.
+
 * Countinous Delivery is automatic process where the build code is countinously deployed into servers  quickly and efficiently.
+
 * Stages in CD are DeployToDev -> Test in Dev -> send to stagging -> Test in satgging -> Send to prod.
+
+* Virtualization(Virtual machine) is we have infra on top of that we have to install hypervisor on top of that we can install or choose any type of os as per our requirement and we can deploy the applications into vms.
+
+* Containerization we have infra in that we have any os in that os we should install container engine like docker and we can containerize the app. Here we can say one container is equal to one server.
+
+* 
 
 
 

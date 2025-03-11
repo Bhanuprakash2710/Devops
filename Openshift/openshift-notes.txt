@@ -1,0 +1,21 @@
+* Openshift is build on top of docker and kubernetes.
+
+* In k8s we will deploy the application with few steps like 
+1.build an image 
+2.push that image to registry 
+3.Automating deployment using cicd.
+
+* But in openshift we should only create the project and remaining it will takecare .
+
+* Compare to k8s openshift offers more security , we can say inbuilt security,
+
+* To secure a k8s cluster we need a IAM , Role Based Access Control and Authorization . We manually need to setup them.
+
+* But in openshift they all come by default , we no need to setup them.
+
+* In k8s we should externally or manually sets up the observation tools like Prometheus, Grafana.
+
+* But in openshift they all comes in by default , like they no need for extra setup—OpenShift provides a UI dashboard for metrics, logs, and alerts.
+
+* 
+

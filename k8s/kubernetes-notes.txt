@@ -1,3 +1,113 @@
+********************************************************** k8s Architecture ******************************************************************
+
+* k8s architecture mainly has 2 components: Master Node and Worker Node 
+
+* Master Node : master node conatains etcd , kube-apiserver, kube-scheduler , kube controller manager and cloud controller manager 
+
+-> kube-apiserver: It used to interact with k8s cluster and exposes the k8s apis . kubectl, user , master node components like kube controller manager and worke node components like kubelet everything will talk with apiserver.
+
+-> etcd: It is like database for k8s cluster . It stores all the master and worker nodes data inside it.
+
+-> kube-scheduler: It will schedule all the pods and also distributes all the containes accross the nodes. It will also assign pods to nodes.
+
+-> kube controller manager: It is responsible for noticing and responding when node or container goes down . It will make decesions to make the containers or nodes up.
+
+-> cloud controller manager: It is not present for on-premsis k8s cluster . It will present in cloud-providers only . If a node is not responding it will check in the cloud provider that the node is deleted or not.
+
+* Worker Node : kubelet and kubeproxy 
+
+-> kubelet: It runs in every node in cluster . It will make sure that all the containers are running in a pod on node.
+
+-> kube-proxy: It maintains network rules on nodes. It will allow network communication to pods.
+
+
+* Both the master and worker node has conatiner runtime , where all the k8s components runs.
+
+
+
+************************************************************************** pods *****************************************************************
+
+* Pod is single instance of an application.
+
+* Pod is a smallest object that we can create in k8s.
+
+* k8s will directly dont deploy containers. Containers are encapsulated into k8s pods.
+
+* To scale up we will create a new pod and to scale down we will delete a new pod.
+
+* We cannot have multiple containers of same kind in a single pod.
+
+* We can have multiple containers of differnet type in a single pod.
+
+* Communication between the containers is easy , as they share the same network space.
+
+* kubectl get pods -o wide -> will display extra info for that pod like on which node it is running.
+
+* If any error withb the pod use kubectl describe pod pod-name , under this event section you can see logs . By checking this logs we can debug the error.
+
+* To debug by entering into container of a pod use -> kubectl exec -it pod-name -- /bin/bash
+
+* kubectl expose pod first-pod --type=LoadBalancer --port=80 --target-port=5000 --name=first-service -> to expose any pod as service 
+
+
+************************************************************************** Services *******************************************************
+
+* To expose the application which is running on pod in k8s , we use services.
+
+* Cluster ip service create a ip inside the cluster , to enable communicate with other front-end services or back-end service.
+
+* In k8s communication between pods within the same node will be done through service i.e cluster ip service.
+
+* For nodeport service there will be three ports 
+  1. Target port -> this is the port of the pod
+  2. port ->   this is the port of service
+  3. Nodeport -> this is the port of node 
+  
+ * To access the node port in browser we can use http:ip of the node:nodeport. Ex: suppose we have a pod running in node of ip 172.16.22.22 and the nodeport of that node is 30008 then use http:172.16.22.22:30008
+
+* The range of nodeports is 30000-32767 
+ 
+ * suppose the pods are distributed accross the different nodes then we can access with any node ip and its nodeport .
+ 
+ * kubectl describe service service-name -> 
+ 
+ 
+************************************************************************* Deployment *******************************************************
+
+* kubectl create deployment first-deployment --image=stacksimplify/kubenginx:1.0.0
+
+* To scale the rs use -> kubectl scale --replicas=2 deployment/first-deployment
+
+* To expose deployment use -> kubectl expose deployment first-deployment --type=LoadBalancer --port=80 --target-port=80 --name=first-deployment-service
+
+* To set the new image name use -> kubectl set image deployment/first-deployment container-name=stacksimplify/kubenginx:2.0.0 --record=true 
+
+* To check the rollout history use -> kubectl rollout history deployment/first-deployments
+
+* If you want to edit the deployment use -> kubectl edit deployment deployment-name
+
+* In deployment rollback there are 2 options , 1.rollback to previous version 2.rollback to specific version 
+
+* To rollout your deployment to prevoius version use -> kubectl rollout undo deployment/deployment-name
+
+* To rollout to specific vsersion use -> kubectl rollout undo deployment/deployment-name --to-revision=revision-number
+
+* To restart the pods in the deployment use -> kubectl rollout restart deployment/first-deployment
+  
+  
+************************************************************************** Replica sets *******************************************************
+
+* Replica set purpose is to a stable set of replica pods running at any given time.
+
+* If any application crashes(Pods died) replica set will create the pod immediately to ensure that the configured number of pods are running.
+
+* When load becomes more on the existing pods , k8s enables us to easily scale the application , adding additional pods as needed. This is going to seamless and fast.
+  
+* To check for any errors or logs use -> kubectl describe rs rs-name
+  
+
+*********************************************************************  k8s commnads  ********************************************
+
 * Kubectl get pods . To see the list of all pods.
 
 * kubectl get pods -o wide . To see more info about pods.
@@ -34,27 +144,15 @@
 
 * for pods ready state 2/2 means container running in pod to the total container is pod.
 
-************************************************************************** Services *******************************************************8
-
-* Cluster ip service create a ip inside the cluister , to enable communicate with other front-end services or back-end service.
-
-* In k8s communication between pods within the same node will be done through service i.e cluster ip service.
-
-* For nodeport service there will be three ports 
-  1. Target port -> this is the port of the pod
-  2. port ->   this is the port of service
-  3. Nodeport -> this is the port of node 
-  
- * To access the node port in browser we can use http:ip of the node:nodeport. Ex: suppose we have a pod running in node of ip 172.16.22.22 and the nodeport of that node is 30008 then use http:172.16.22.22:30008
-
-* The range of nodeports is 30000-32767 
- 
- * suppose the pods are distributed accross the different nodes then we can access with any node ip and its nodeport .
- 
- *
-  
 
 
+********************************************************* Auto Scaling *****************************************************
+
+* Thera are 2 types of autoscaling 1.Vertical AutoScaling , 2.Horizontal AutoScaling
+
+* In vertical autoscaling we will increase the memory size and cpu size. But this is not used in many scenearois.
+
+* In Horizontal pod autoscaling(HPA) we will add the extra vms or servers , we can say we add replicas .
 
 
 
