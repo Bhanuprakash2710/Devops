@@ -54,6 +54,8 @@
 
 * To expose the application which is running on pod in k8s , we use services.
 
+* Cluster ip service is used for internal communication between applications in k8s cluster , with a stable internal ip.
+
 * Cluster ip service create a ip inside the cluster , to enable communicate with other front-end services or back-end service.
 
 * In k8s communication between pods within the same node will be done through service i.e cluster ip service.
@@ -69,7 +71,14 @@
  
  * suppose the pods are distributed accross the different nodes then we can access with any node ip and its nodeport .
  
- * kubectl describe service service-name -> 
+ * Ingress is a advanced loadbalancer service which provides context path based routing .
+ 
+ * kubectl describe service service-name -> will give the specific service details , can be useful for debugging.
+ 
+ * A Headless Service in Kubernetes is a special type of service that does not assign a cluster IP (i.e., no load balancing). Instead of exposing a single IP address, it directly returns the IP addresses of the individual pods backing the service.
+ 
+ * To create a Headless service use clusterIp: none
+ 
  
  
 ************************************************************************* Deployment *******************************************************
@@ -93,6 +102,10 @@
 * To rollout to specific vsersion use -> kubectl rollout undo deployment/deployment-name --to-revision=revision-number
 
 * To restart the pods in the deployment use -> kubectl rollout restart deployment/first-deployment
+
+* To pause the deployment use -> kubectl rollout pause deployment/first-deployment
+
+* To resume the deployment use -> kubectl rollout resume deployment/first-deployment
   
   
 ************************************************************************** Replica sets *******************************************************
