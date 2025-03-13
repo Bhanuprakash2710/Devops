@@ -20,9 +20,9 @@
 
 -> kube-proxy: It maintains network rules on nodes. It will allow network communication to pods.
 
-
 * Both the master and worker node has conatiner runtime , where all the k8s components runs.
 
+* When ever a cluster is created , bydefault 4 namespaces will be created default,kube-system,kube-public,kube-node-lease
 
 
 ************************************************************************** pods *****************************************************************
