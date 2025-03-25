@@ -65,20 +65,29 @@
   2. port ->   this is the port of service
   3. Nodeport -> this is the port of node 
   
- * To access the node port in browser we can use http:ip of the node:nodeport. Ex: suppose we have a pod running in node of ip 172.16.22.22 and the nodeport of that node is 30008 then use http:172.16.22.22:30008
+* To access the node port in browser we can use http:ip of the node:nodeport. Ex: suppose we have a pod running in node of ip 172.16.22.22 and the nodeport of that node is 30008 then use http:172.16.22.22:30008
 
 * The range of nodeports is 30000-32767 
  
- * suppose the pods are distributed accross the different nodes then we can access with any node ip and its nodeport .
+* suppose the pods are distributed accross the different nodes then we can access with any node ip and its nodeport .
  
- * Ingress is a advanced loadbalancer service which provides context path based routing .
+* Ingress is a advanced loadbalancer service which provides context path based routing .
  
- * kubectl describe service service-name -> will give the specific service details , can be useful for debugging.
+* kubectl describe service service-name -> will give the specific service details , can be useful for debugging.
  
- * A Headless Service in Kubernetes is a special type of service that does not assign a cluster IP (i.e., no load balancing). Instead of exposing a single IP address, it directly returns the IP addresses of the individual pods backing the service.
+* A Headless Service in Kubernetes is a special type of service that does not assign a cluster IP (i.e., no load balancing). Instead of exposing a single IP address, it directly returns the IP addresses of the individual pods backing the service.
  
- * To create a Headless service use clusterIp: none
+* Headless service is mainly used for stateful applications like databases (e.g., MySQL, Cassandra) where clients need to connect to specific pod instances.
  
+* To create a Headless service use clusterIp: none
+ 
+* Ingress service provides a way to expose multiple services using a single external IP and route traffic based on hostnames or paths.
+
+* Single application	                     LoadBalancer
+  Microservices architecture	             Ingress (with an Ingress Controller)
+  Internal communication between service     ClusterIP (default)
+
+
  
  
 ************************************************************************* Deployment *******************************************************
@@ -117,6 +126,39 @@
 * When load becomes more on the existing pods , k8s enables us to easily scale the application , adding additional pods as needed. This is going to seamless and fast.
   
 * To check for any errors or logs use -> kubectl describe rs rs-name
+
+
+
+************************************************************************ Persistant volumes  ***********************************************
+
+* A Persistent Volume is a piece of storage in the cluster. It’s created and managed by the cluster administrator.
+
+* It represents a storage resource in the cluster (like a disk, network file system, etc.).
+
+* PVs can be backed by: Google Persistent Disk (GCP), Amazon EBS (AWS), Azure Disk (Azure)
+
+* A Persistent Volume Claim is a request for storage by a pod. It allows a pod to "claim" storage without knowing the underlying storage details.
+
+* A PVC defines: Storage size, Access mode (e.g., ReadWriteOnce), Storage class (if applicable)
+
+* Admin creates a Persistent Volume (PV). A pod requests storage using a Persistent Volume Claim (PVC).
+
+* Kubernetes looks for a suitable PV that matches the request in the PVC. If a match is found, Kubernetes binds the PVC to the PV or else new PV will be created by vvthe cluster and PVC will bound to it. The pod mounts the PV and uses it for storage.
+
+
+  
+*********************************************************************** ConfigMaps ***************************************
+
+* ConfigMaps are used to store and manage configuration data separately from application code. 
+
+* This allows you to keep your application configuration flexible and environment-specific without modifying the containerized application itself.
+
+* In configmaps we store insensitive information like Hostname, database name .
+
+* K8s secret is used to store sensitive information like database-username and database-password.
+  
+  
+  
   
 
 *********************************************************************  k8s commnads  ********************************************
@@ -155,7 +197,12 @@
 
 * kubect describe deployment deployment-name . To check the info about deployment.
 
-* for pods ready state 2/2 means container running in pod to the total container is pod.
+* for pods ready state 2/2 means container running in pod to the total container is pod.s user in MySQL DB
+
+* Connect to MySQL Database using kubectl -> kubectl run -it --rm --image=mysql:8.0 --restart=Never mysql-client -- mysql -h <Kubernetes-ClusterIP-Service> -u <USER_NAME> -p<PASSWORD>
+
+* Replace ClusterIP Service, Username and Password -> kubectl run -it --rm --image=mysql:8.0 --restart=Never mysql-client -- mysql -h mysql -u root -pdbpassword11
+
 
 
 
@@ -181,7 +228,7 @@
       Replicasets      apps/v1
       
       
-* To link a deplopyment and a service  copy the labels part of deployment into selectors part of a service.
+* To link a deplopyment and a service  copy the selector, matchlabels part of deployment into selectors part of a service.
 * In docker we use networks to communicate with in containers. In k8s we services to communicate with pods.
 
 
