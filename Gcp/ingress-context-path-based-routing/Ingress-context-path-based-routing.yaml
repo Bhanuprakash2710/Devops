@@ -35,7 +35,7 @@ spec:
 #                name: app3-nginx-nodeport-service
 #                port: 
 #                  number: 80                     
-# If we mention default Backend then no need of / path              
+# If we mention default Backend then no need of / path or if we keep path as / then it will act has default backend         
 
     
     
