@@ -159,6 +159,22 @@
   
   
   
+************************************************************************ Reverse proxy *****************************************
+
+* A reverse proxy is a server that sits between clients (e.g., browsers, frontend apps) and backend servers (e.g., APIs, databases). It forwards client requests to the appropriate backend service and then returns the response to the client.
+
+* Think of it as a middleman that helps secure, optimize, and route traffic between users and backend services.
+
+* A client (browser, frontend app) sends a request (e.g., GET /api/all).
+
+* The reverse proxy receives the request instead of the backend.
+
+* It forwards the request to the appropriate backend server (e.g., http://student-app:8080/all).
+
+* The backend processes the request and sends a response back to the proxy.
+
+* The reverse proxy returns the response to the client.
+  
   
 
 *********************************************************************  k8s commnads  ********************************************
@@ -203,7 +219,8 @@
 
 * Replace ClusterIP Service, Username and Password -> kubectl run -it --rm --image=mysql:8.0 --restart=Never mysql-client -- mysql -h mysql -u root -pdbpassword11
 
-
+* kubectl port-forward svc/student-app 8080:8080 -> It will forward the request to localhost
+ 
 
 
 ********************************************************* Auto Scaling *****************************************************

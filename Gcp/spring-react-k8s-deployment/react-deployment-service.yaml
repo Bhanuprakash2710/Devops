@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-app
+  labels:
+    app: react-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-app
+  template:
+    metadata:
+      labels:
+        app: react-app
+    spec:
+      containers:
+        - name: react-app
+          image: bhanuprakash2710/react-spring-app-for-k8s:v4.1
+          ports:
+            - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-app-loadbalancer-service
+spec: 
+  type: LoadBalancer
+  loadBalancerIP: 34.31.148.248
+  selector:
+    app: react-app
+  ports:
+  - port: 80
+    targetPort: 80

@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-app
+  labels:
+    app: student-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: student-app
+  template:
+    metadata:
+      labels:
+        app: student-app
+    spec:
+      initContainers:
+        - name: init-db
+          image: busybox:1.31
+          command: ['sh', '-c', 'echo -e "Checking for the availability of MySQL Server deployment"; while ! nc -z mysql-external-name-service 3306; do sleep 1; printf "-"; done; echo -e "  >> MySQL DB Server has started";'] 
+      containers:
+        - name: student-app
+          image: bhanuprakash2710/spring-app-for-k8s:v3.2
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOSTNAME
+              value: "mysql-external-name-service"   
+            - name: DB_PORT
+              value: "3306"            
+            - name: DB_NAME
+              value: "Hibernate"            
+            - name: DB_USERNAME
+              value: "root"            
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-db-password
+                  key: db-password
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: student-app # spring-app-clusterip-service
+spec: 
+  type: ClusterIP
+  selector:
+    app: student-app
+  ports:
+  - port: 8080
+    targetPort: 8080
