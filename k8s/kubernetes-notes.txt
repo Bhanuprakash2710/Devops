@@ -174,6 +174,60 @@
 * The backend processes the request and sends a response back to the proxy.
 
 * The reverse proxy returns the response to the client.
+
+
+
+************************************************************************** probes *******************************************************
+
+* k8s probes are used to detect the containers that havent started , containers that are not serving the traffic , containers that are completely dead and not serving the traffic, containers that are overloaded and cannot serve additional traffic.
+
+* k8s liveness probs let k8s know wheather our application is running in a container inside a pod is healthy or not .
+
+* If our application is healthy , k8s will not involve in pod functioning , if our application is unhealthy k8s will marks it as unhealthy.
+
+* If a pod fails health-checks countinously , then k8s will kill the container and restarts .
+
+* In short k8s liveness pod will remove the unhealthy pods.
+
+* kubelet will send http req every to seconds and expect a response.
+
+* If the pod responds the http code between 200-399 then dkubelt consider the container as healthy. if not it marks as unhealthy.
+
+* We can mention the failure threshold , that many times the health check fails then kubelet will kill the container and restarts the pod.
+
+* k8s Startup probe let k8s knows wheather our application in container inside pod is started or not .
+
+* startup probe has higher priority over rediness and liveness probes . until the startup probe succeed the remaining probes will be in the disable state.
+
+* startup probes are useful in the situation where our apps can take longer time to start or could fail while start .
+
+* If the startup probe never succeed then the conatiner will be killed after 300 seconds and subject to the pod restart policy.
+
+* A Kubernetes (k8s) readiness probe is a mechanism used by Kubernetes to determine whether a container is ready to accept traffic.
+
+* If the readiness check fails, the container is temporarily removed from the Service's endpoints (i.e., it won’t receive any traffic).
+
+* Unlike a liveness probe (which checks if the container is alive or should be restarted), a readiness probe only affects traffic routing.
+
+
+
+
+****************************************************************** Limits and Requests ***********************************************
+
+* Requests are what the container is guranteed to get .
+
+* If a container requests a resources, k8s will only schedules that node which can give that resources.
+
+* Limit make sures that container never goes above that value.
+
+* The container is allowed to go upto that limit, then it is restricted.
+
+* cpu and memory collectively called as resources or compute resources in k8s .
+
+* 128 Mi (MebiBytes) is equal to 135 MB (megaBytes)
+
+* 1000 m (milliCpus) is equal to 1 VCPU core
+
   
   
 
@@ -220,6 +274,8 @@
 * Replace ClusterIP Service, Username and Password -> kubectl run -it --rm --image=mysql:8.0 --restart=Never mysql-client -- mysql -h mysql -u root -pdbpassword11
 
 * kubectl port-forward svc/student-app 8080:8080 -> It will forward the request to localhost
+
+* 
  
 
 
