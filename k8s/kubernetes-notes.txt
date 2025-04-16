@@ -6,9 +6,9 @@
 
 -> kube-apiserver: It used to interact with k8s cluster and exposes the k8s apis . kubectl, user , master node components like kube controller manager and worke node components like kubelet everything will talk with apiserver.
 
--> etcd: It is like database for k8s cluster . It stores all the master and worker nodes data inside it.
+-> etcd: It is like database for k8s cluster . It stores all the master and worker nodes data inside it. Like the amount of space in each node , amount of space used by each node and amount of space left in the node .
 
--> kube-scheduler: It will schedule all the pods and also distributes all the containes accross the nodes. It will also assign pods to nodes.
+-> kube-scheduler: It will schedule all the pods and also distributes all the containes accross the nodes. It will also assign pods to nodes. 
 
 -> kube controller manager: It is responsible for noticing and responding when node or container goes down . It will make decesions to make the containers or nodes up.
 
