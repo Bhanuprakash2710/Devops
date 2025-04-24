@@ -203,6 +203,24 @@ UBUNTU_CODENAME=jammy
 * To kill a process use -> kill -9 pid
 
 
+***************************************************** Networking cmds *********************************************
+
+* hostname -I will give the ip address of the system
+
+* Tests connectivity between containers, pods, or hosts. -> ping <IP or hostname>. Check if a container can reach another container/pod.
+
+* Check if a service is responding on a specific port. -> curl http://<ip>:<port>
+
+* The nslookup command queries the DNS in order to fetch the IP address or the domain name from DNS records. . -> nslookup my-service.my-namespace.svc.cluster.local or nslookup google.com
+
+
+
+
+
+
+
+
+
 ************************************************************************  Shell scripting ***********************************************************************************
 
 

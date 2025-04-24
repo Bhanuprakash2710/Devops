@@ -1,0 +1,128 @@
+
+* Git squash
+
+  Git squash is used during interactive rebase to combine multiple commits into a single, cleaner commit. This is helpful for keeping the history tidy.
+
+Example:
+Let’s say your branch has 3 commits:
+git log --oneline
+a3f5f4c Fix UI bug
+c1b2d3a Add loading spinner
+d4e5f6g Initial setup
+To squash the last 3 commits into one:
+
+git rebase -i HEAD~3
+You will see:
+
+pick d4e5f6g Initial setup
+pick c1b2d3a Add loading spinner
+pick a3f5f4c Fix UI bug
+Change the second and third pick to squash or s:
+
+pick d4e5f6g Initial setup
+squash c1b2d3a Add loading spinner
+squash a3f5f4c Fix UI bug
+Then save and edit the new commit message.
+
+
+* Git stash 
+
+  git stash temporarily shelves (or hides) changes you've made to your working directory so you can work on something else and come back later.
+
+Example:
+
+# You made changes but want to pull latest without committing
+git stash
+
+# Now your working directory is clean
+git pull origin main
+
+# Bring back your stashed changes
+git stash pop
+
+You can also list and apply specific stashes:
+
+git stash list
+git stash apply stash@{1}
+
+
+* Git log 
+
+  Displays commit history.
+
+Examples:
+
+git log                 # full log
+git log --oneline       # short commit hash + message
+git log --graph --oneline --all
+You can filter logs:
+
+git log --author="Your Name"
+git log --since="2 weeks ago"
+
+
+
+
+* Git reset 
+
+ Moves the HEAD and unstages the last commit's changes, Keeps your actual code changes (they remain in the working directory). You can still re-add and recommit them.
+
+Think of it as: "I want to undo the last commit, but keep my code changes."
+
+ Ex: git reset HEAD~1
+
+
+
+* Git hard reset 
+
+  Moves the HEAD, unstages, AND discards all code changes. You lose uncommitted work in the working directory.
+
+  Think of it as: "Undo the commit AND throw away all the code changes too."
+
+  Example: git reset --hard HEAD~1
+
+
+
+* Git merge 
+
+  git merge combines the history of two branches, creating a new merge commit. It preserves the original branch history.
+
+  Use it when: You want to maintain a complete record of how branches diverged and came back together. Working in a team and want to preserve the context of parallel development.
+
+
+* Git rebase
+
+  git rebase reapplies your commits on top of another base branch. It rewrites history to make it look like your work happened in a linear flow.
+
+  Use it when: You want a clean, linear history. You're working on a feature branch and want to sync it with the latest changes in main without a merge commit.
+
+
+* Git cherry-pick 
+
+  git cherry-pick allows you to apply a specific commit (or a range of commits) from one branch onto another, without merging the full branch.
+
+  It’s like saying: “I only want this one change from that branch.”
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

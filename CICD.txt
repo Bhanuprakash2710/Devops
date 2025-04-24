@@ -16,5 +16,12 @@
 
 
 
+**************************************************************** Jenkins *********************************************************
+
+* Git polling , will check the git repo for the time interval given by us and will build the pipeline automatically.
+
+* 
+
+
 
 

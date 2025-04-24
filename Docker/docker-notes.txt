@@ -8,6 +8,10 @@
 
 * In Dockerfile we use  both CMD and ENTRYPOINT define commands to be run when a container starts, but they behave differently.
 
+* ENTRYPOINT when you want your container to run a specific executable always (e.g., a script or binary).
+
+* CMD when you want to provide default parameters or a default command that can be easily overridden.
+
 * If we use CMD command , it specifies the default command and arguments for the container, and It can be overridden by passing a command at the end of the docker run command.
 
 * If we use CMD command it will override the content in the dockerfile and only use while given at docker run.
@@ -38,6 +42,11 @@
 
 * docker run -d --name webapp --network wep-sql-network -e DB-HOST=db-host -e DB-PASSWORD=db_pass123 --link mysqldb:mysqldb bhanuprakash2710/python-app:v1
 
+* To debug any issue with docker container use -> docker exec -it <container_name_or_id> /bin/bash
+
+* it will work only for the running containers.
+
+* 
 
 *************** To see the docker container by going into its directories use -> sudo -i  ***************************************
 
@@ -83,6 +92,46 @@
   - DB_PASS=yourpassword
 
 * 
+
+
+
+
+
+****************************************************************** Ports ************************************
+
+* Container Port: Port inside the container.
+
+* Host Port: Port on your local machine (or host).
+
+* Port Mapping: Connecting host and container ports.
+
+* Example : docker run -d -p 8080:80 nginx
+
+* Host Port	8080
+* Container Port	80
+* This means: requests to localhost:8080 on your machine go to port 80 inside the nginx container.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

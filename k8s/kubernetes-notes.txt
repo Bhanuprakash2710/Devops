@@ -20,7 +20,7 @@
 
 -> kube-proxy: It maintains network rules on nodes. It will allow network communication to pods.
 
-* Both the master and worker node has conatiner runtime , where all the k8s components runs.
+* Both the master and worker node has container runtime , where all the k8s components runs.
 
 * When ever a cluster is created , bydefault 4 namespaces will be created default,kube-system,kube-public,kube-node-lease
 
@@ -43,7 +43,7 @@
 
 * kubectl get pods -o wide -> will display extra info for that pod like on which node it is running.
 
-* If any error withb the pod use kubectl describe pod pod-name , under this event section you can see logs . By checking this logs we can debug the error.
+* If any error with the pod use kubectl describe pod pod-name , under this event section you can see logs . By checking this logs we can debug the error.
 
 * To debug by entering into container of a pod use -> kubectl exec -it pod-name -- /bin/bash
 
@@ -61,17 +61,15 @@
 * In k8s communication between pods within the same node will be done through service i.e cluster ip service.
 
 * For nodeport service there will be three ports 
-  1. Target port -> this is the port of the pod
+  1. Target port -> this is the port of the pod(container)
   2. port ->   this is the port of service
-  3. Nodeport -> this is the port of node 
+  3. Nodeport -> this is the port of node (range is 30000-32767)
   
 * To access the node port in browser we can use http:ip of the node:nodeport. Ex: suppose we have a pod running in node of ip 172.16.22.22 and the nodeport of that node is 30008 then use http:172.16.22.22:30008
 
 * The range of nodeports is 30000-32767 
  
 * suppose the pods are distributed accross the different nodes then we can access with any node ip and its nodeport .
- 
-* Ingress is a advanced loadbalancer service which provides context path based routing .
  
 * kubectl describe service service-name -> will give the specific service details , can be useful for debugging.
  
@@ -80,6 +78,8 @@
 * Headless service is mainly used for stateful applications like databases (e.g., MySQL, Cassandra) where clients need to connect to specific pod instances.
  
 * To create a Headless service use clusterIp: none
+
+* Ingress is a advanced loadbalancer service which provides context path based routing .
  
 * Ingress service provides a way to expose multiple services using a single external IP and route traffic based on hostnames or paths.
 
@@ -91,6 +91,8 @@
  
  
 ************************************************************************* Deployment *******************************************************
+
+* A Deployment in Kubernetes is a declarative API object that defines the desired state for running one or more identical Pods (through an underlying ReplicaSet) and manages their lifecycle—handling pod creation, updates (rolling updates), scaling, and rollbacks—so you don’t have to manually orchestrate individual Pods.
 
 * kubectl create deployment first-deployment --image=stacksimplify/kubenginx:1.0.0
 
@@ -179,7 +181,7 @@
 
 ************************************************************************** probes *******************************************************
 
-* k8s probes are used to detect the containers that havent started , containers that are not serving the traffic , containers that are completely dead and not serving the traffic, containers that are overloaded and cannot serve additional traffic.
+* In Kubernetes, probes are used to monitor the health and readiness of containers in a Pod. They help ensure your application runs reliably by restarting unhealthy containers or preventing traffic from being sent to containers that aren't ready.
 
 * k8s liveness probs let k8s know wheather our application is running in a container inside a pod is healthy or not .
 
@@ -191,7 +193,7 @@
 
 * kubelet will send http req every to seconds and expect a response.
 
-* If the pod responds the http code between 200-399 then dkubelt consider the container as healthy. if not it marks as unhealthy.
+* If the pod responds the http code between 200-399 then kubelt consider the container as healthy. if not it marks as unhealthy.
 
 * We can mention the failure threshold , that many times the health check fails then kubelet will kill the container and restarts the pod.
 
@@ -261,7 +263,7 @@
 
 * kubectl rollout history deployment/myapp-deployment. To check the history of deployment 
 
-* kubectl rollout undo deployment/myapp-deployment. To rolLback the deployment.
+* kubectl rollout undo deployment/myapp-deployment. To rollback the deployment.
 
 * kubectl set image deploy deployment-name container-name=new-image-name . To change the image in deployment.
 
@@ -301,16 +303,48 @@
       Replicasets      apps/v1
       
       
-* To link a deplopyment and a service  copy the selector, matchlabels part of deployment into selectors part of a service.
+* To link a deplopyment and a service  copy the selector, spec-> template-> metadata-> labels-> app part of deployment into selectors part of a service.
 * In docker we use networks to communicate with in containers. In k8s we services to communicate with pods.
 
 
 ************************************************ Helm *****************************************************
      
+* Helm is a package manager for Kubernetes. It simplifies application deployment by allowing you to define, install, and upgrade Kubernetes applications using Helm charts (pre-configured application resources). It reduces YAML repetition and makes deployments reusable and manageable.
+
+* Chart.yaml: Metadata about the chart (name, version, description)
+
+* values.yaml: Default configuration values
+
+* templates/: Contains Kubernetes resource templates (Deployment, Service, etc.)
+
+* helm install: Deploys a new release
+
+* helm upgrade: Applies changes to an existing release     
+      
+* Get revision list with: helm history <release-name>
+* helm rollback <release-name> <revision-number>
+
 * Use helmify to convert the kubernetes manifest into helm charts
 * 1. pwd should the deployment-service.yaml files
 * 2. Run cat *.yaml | helmify helm-chart-folder-name
 * 3. Check the files.
+
+* Helm packages templates into charts, supports versioning, upgrades, rollbacks, and value overrides — making it better for managing complex apps.
+
+
+
+
+********************************************************** Deployment startagies *****************************************
+
+* Rolling Update (Default Strategy): The default deployment strategy, where Kubernetes gradually replaces old Pods with new ones without downtime.
+
+* Recreate :  With this strategy, Kubernetes deletes all the old Pods before creating new ones.
+
+* Blue/Green Deployment: This is not a native strategy in Kubernetes, but it can be implemented using separate Deployments and Services. The idea is to deploy the new version of an application alongside the old one, then switch traffic from the old version (blue) to the new version (green).
+
+* Canary Deployment: A Canary deployment gradually rolls out the new version of the application to a small subset of users or Pods before rolling it out to the rest.
+
+*  Shadow Deployment: A shadow deployment sends real production traffic to the new version of the application but does not affect the actual user-facing application. This allows testing in production-like conditions without impacting users.
 
 
 
@@ -350,8 +384,47 @@
 
 * And also add resource limits to pods.
 
- 
+* Container exceeds CPU limit	              Running (throttled)
+* Container exceeds memory limit	      OOMKilled → CrashLoopBackOff
+* Node under memory/disk/inode pressure	      Evicted
 
+* Exec into a Specific Container
+
+-> kubectl exec -it <pod-name> -c <container-name> -- /bin/sh
+
+
+
+********************************************************* Trafic routes in k8s ********************************
+
+* web -> ingress -> services -> pod (Based on labels) 
+
+* 
+ 
+********************************************************* ports *********************************************
+
+* containerPort : The port exposed by the container (inside the Pod)
+* port : The port on the Service object
+* targetPort : The port the service routes to (inside the pod)
+* nodePort : Exposes service on a static port on each node
+
+* Ex: apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  type: NodePort
+  selector:
+    app: my-app
+  ports:
+    - port: 80          # Port on the Service
+      targetPort: 8080  # Port on the Pod (containerPort)
+      nodePort: 30080   # Port on the Node (optional)
+
+-> Here's what this means:
+
+Container	8080	Where the app runs inside the pod
+Service	80	Exposes the app to other K8s services
+NodePort	30080	Exposes to external traffic (cluster node)
 
 
 
