@@ -127,7 +127,7 @@
 
 * When load becomes more on the existing pods , k8s enables us to easily scale the application , adding additional pods as needed. This is going to seamless and fast.
   
-* To check for any errors or logs use -> kubectl describe rs rs-name
+* To check for any errors or logs use -> kubectl describe rs rs-name.
 
 
 
@@ -304,7 +304,10 @@
       
       
 * To link a deplopyment and a service  copy the selector, spec-> template-> metadata-> labels-> app part of deployment into selectors part of a service.
+
 * In docker we use networks to communicate with in containers. In k8s we services to communicate with pods.
+
+
 
 
 ************************************************ Helm *****************************************************
@@ -344,7 +347,7 @@
 
 * Canary Deployment: A Canary deployment gradually rolls out the new version of the application to a small subset of users or Pods before rolling it out to the rest.
 
-*  Shadow Deployment: A shadow deployment sends real production traffic to the new version of the application but does not affect the actual user-facing application. This allows testing in production-like conditions without impacting users.
+* Shadow Deployment: A shadow deployment sends real production traffic to the new version of the application but does not affect the actual user-facing application. This allows testing in production-like conditions without impacting users.
 
 
 
@@ -391,6 +394,15 @@
 * Exec into a Specific Container
 
 -> kubectl exec -it <pod-name> -c <container-name> -- /bin/sh
+
+* If the cpu limit exceeds then it will not show the pod is crashed , it will slow down the application , like giving late response.
+
+* Look for pods in CrashLoopBackOff, OOMKilled, or Evicted status — CPU throttling won’t crash the pod but may affect performance.
+
+* To check the cpu usage of the specific pod -> kubectl top pod <pod-name> -n <namespace>
+
+
+
 
 
 

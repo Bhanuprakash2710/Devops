@@ -1,0 +1,23 @@
+* Devops is a process of improving the application Delivery 
+
+* Automation
+
+* Quality
+
+* Countinuous Testing
+
+* Countinuous Monitoring
+
+* 
+
+
+
+
+
+
+
+************************************************************** Networking ************************************************
+
+Ip-address
+
+-> 

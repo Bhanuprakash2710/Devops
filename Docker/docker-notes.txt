@@ -46,7 +46,14 @@
 
 * it will work only for the running containers.
 
-* 
+* We use copy in dockerfile to only the copy the files 
+
+* We use add in dockerfile to copy , extract the .tar files and download the files from url .
+
+
+
+
+ 
 
 *************** To see the docker container by going into its directories use -> sudo -i  ***************************************
 
@@ -61,9 +68,12 @@
 
 * We use bindmount to provide live data to the container i.e no rebuilding of image is required.
 
-* to check the data inside volumes -> cd /var/lib/docker/volumes/<volume_name>/_data
+* to check the data inside volumes in local go to -> cd /var/lib/docker/volumes/<volume_name>/_data
 
-* 
+* When the container restarts then the data in the local will be copied inside the container , also when the data is added to a running container then the data will be copied to local .
+
+
+
 
 
 ***************************************** Network *************************************
@@ -109,8 +119,14 @@
 
 * Host Port	8080
 * Container Port	80
+
 * This means: requests to localhost:8080 on your machine go to port 80 inside the nginx container.
 
+* The port we give while running the container should match to the port that the application is running.
+
+* Ex:- Suppose a java application bydefault will run in 8080 port , so while running a container we should mention that 2000:8080 , here 2000 is the port that we use to expose in the outside world and 8080 is the port we use inside the container.
+
+* At the end the port at which appication is running at the code level should match with port inside the container.
 
 
 

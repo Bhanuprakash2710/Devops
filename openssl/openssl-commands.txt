@@ -1,0 +1,203 @@
+*  Generate a Private Key
+
+-> command: openssl genrsa -out private.key 2048
+
+-> What it does: Generates a 2048-bit RSA private key and saves it as private.key.
+
+-> Why: A private key is required for creating CSRs (Certificate Signing Requests), self-signed certificates, and for decrypting data.
+
+-> Where used: Initial step when setting up HTTPS for a service (e.g., Nginx, Apache, Kubernetes Ingress).
+
+
+
+
+*  Create a New Private Key and CSR( certificate signing request )
+
+-> command: openssl req -nodes -newkey rsa:2048 -keyout custom.key -out custom.csr
+
+-> This command creates both a private key (custom.key) and a Certificate Signing Request (CSR) file (custom.csr).
+
+
+
+
+*  create a CSR with existing private key 
+
+-> command: openssl req -new -key private.key -out request.csr
+
+-> What it does: Creates a CSR using the existing private key.
+
+-> Why: CSRs are sent to Certificate Authorities (CAs) to request an SSL certificate.
+
+-> Where used: Requesting real SSL certificates from CAs like Let's Encrypt, DigiCert, etc.
+
+
+
+
+*  Create new Private Key and Self Signed certificate
+
+-> command: openssl req -x509 -sha512 -nodes -days 365 -newkey rsa:2048 -keyout custom.key -out custom.pem
+
+-> It will ask for details like country code, state and locality name, Organization name, your name, email address, etc. And after entering all the details it will generate 2 files one with the PEM extension and the other with key extension representing Self Signed Certificate and private key respectively.
+
+
+
+
+* create a self signed certificate with existing private key 
+
+-> command: openssl req -x509 -sha512 -new -nodes -days 365 -key private.key -out certificate.pem
+
+-> What it does: Generates a self-signed SSL certificate valid for 365 days.
+
+-> Why: Useful for internal use, local testing, or dev environments where CA-signed certs are not required.
+
+-> Where used: Local development or internal tools over HTTPS.
+
+
+
+* Convert PEM to PFX
+
+-> command: openssl pkcs12 -export -out certificate.pfx -inkey private.key -in certificate.pem
+
+-> What it does: Converts a PEM-format certificate and key into a PFX (PKCS#12) file.
+
+-> Why: PFX files bundle the certificate and key, often required by Windows systems or services like IIS.
+
+-> Where used: Deploying certs in Windows-based environments or importing into Azure.
+
+
+
+
+* Converting PEM to DER format
+
+-> command: openssl x509 -outform der -in custom.pem -out custom.der
+
+-> It will change the extension of the certificate from .pem to .der and will create a new file with .der extension.
+
+
+
+
+* Extract Public Key from Private Key
+
+-> command: openssl rsa -in private.key -pubout -out public.key
+
+-> What it does: Derives the public key from a private RSA key.
+
+-> Why: You might need to share the public key without exposing the private key, for encryption or signature verification.
+
+-> Where used: Secure file sharing, JWT token validation, SSH key infrastructure.
+
+
+
+
+*  Verifying a CSR file
+
+-> command: openssl req -in custom.csr -text -noout
+
+-> It will display the details you entered at the time of creating the CSR file which could be used to verify that the correct CSR file is sent to the correct receiver.
+
+
+
+
+* Verifying a private key file
+
+-> command: openssl rsa -in private.key -check
+
+-> It will verify and check the RSA key and if it is Ok it will display the following result.
+
+
+
+
+* Checking pem file certificate expiry date
+
+-> command: openssl x509  -in custom.pem -dates -noout
+
+-> It will display the valid from and valid up to date of the certificate.
+
+
+
+
+
+* Verify a Certificate
+
+-> command: openssl x509 -in certificate.crt -text -noout
+
+-> What it does: Displays details (issuer, subject, validity, etc.) of a certificate in human-readable format.
+
+-> Why: Helps verify the certificate's content, expiration, and if it's issued correctly.
+
+-> Where used: Debugging SSL issues, auditing certs.
+
+
+
+
+* Test SSL Connection to a Server
+
+-> command: openssl s_client -connect google.com:443
+
+-> What it does: Opens an SSL/TLS connection to a server and prints the handshake, cert chain, etc.
+
+-> Why: Helps test and debug SSL/TLS connectivity issues.
+
+-> Where used: Checking if your server has a valid SSL cert, or diagnosing TLS handshake errors.
+
+
+
+
+
+
+
+******************************************************************* KeyStore and TrustStore ****************************************************************************
+
+
+*  Import a root or intermediate CA certificate to an existing Java keystore
+
+-> command: keytool -import -trustcacerts -alias root -file Thawte.crt -keystore keystore.jks
+
+
+*  Import a signed primary certificate to an existing Java keystore
+
+-> command: keytool -import -trustcacerts -alias mydomain -file mydomain.crt -keystore keystore.jks 
+
+
+*  List Entries in a Keystore
+
+-> command: keytool -list -keystore <keystore_file>
+
+
+*   List a Specific Alias
+
+-> command: keytool -list -keystore <keystore_file> -alias <alias_name>
+
+-> Purpose: Shows information for a specific certificate/key entry.
+
+
+*  Import a Certificate into a Truststore
+
+-> command: keytool -importcert -trustcacerts -alias <alias_name> -file <certificate_file.cer> -keystore <truststore_file>
+
+
+*  Delete an Entry
+
+-> command: keytool -delete -alias <alias_name> -keystore <keystore_file>
+
+
+*  Print Certificate Details from a File
+
+-> command: keytool -printcert -file <certificate_file.cer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

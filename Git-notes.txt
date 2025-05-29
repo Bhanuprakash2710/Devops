@@ -1,7 +1,7 @@
 
 * Git squash
 
-  Git squash is used during interactive rebase to combine multiple commits into a single, cleaner commit. This is helpful for keeping the history tidy.
+  Git squash is used during interactive rebase to combine multiple commits into a single, cleaner commit. This is helpful for keeping the history clean.
 
 Example:
 Let’s say your branch has 3 commits:

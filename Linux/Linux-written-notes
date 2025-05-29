@@ -32,7 +32,7 @@ UBUNTU_CODENAME=jammy
 
 * history command will give all the commands executed by that user
 
-* 
+* To list the users in the system -> /etc/passwd
 
 ***************************************** cp rm  mv ************************************************
 
@@ -161,12 +161,12 @@ UBUNTU_CODENAME=jammy
   
 *************************************************************** xargs *************************************************************
 
+
 * xargs will take take the output of previous cmd as argument not as input.
 * In case of pipe the the output of previous cmd will be taken as input for the present cmd.
 * ex ls | cat will give will give all the file names in pwd .
 * where ls | xargs cat will give the output as the data inside the files.
  
-
 
 *********************************************************** command substitution *********************************************
 
@@ -212,8 +212,6 @@ UBUNTU_CODENAME=jammy
 * Check if a service is responding on a specific port. -> curl http://<ip>:<port>
 
 * The nslookup command queries the DNS in order to fetch the IP address or the domain name from DNS records. . -> nslookup my-service.my-namespace.svc.cluster.local or nslookup google.com
-
-
 
 
 
