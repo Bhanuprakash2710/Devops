@@ -160,7 +160,30 @@
 * K8s secret is used to store sensitive information like database-username and database-password.
   
   
-  
+
+************************************************************************ Volumes and Volume mount ********************************
+
+
+* Volume requests a space in k8s pod to store configmaps, secrets, files, etc,.
+
+* Volume mount is I have storage(Volume) I want to put it inside my container at this specific folder path.
+
+* Ex:
+ volumes:
+  - name: my-volume
+    configMap:
+      name: my-config
+
+ containers:
+  - name: my-container
+    image: my-app
+    volumeMounts:
+      - name: my-volume
+        mountPath: /app/config
+
+
+
+
 ************************************************************************ Reverse proxy *****************************************
 
 * A reverse proxy is a server that sits between clients (e.g., browsers, frontend apps) and backend servers (e.g., APIs, databases). It forwards client requests to the appropriate backend service and then returns the response to the client.
@@ -337,7 +360,7 @@
 
 
 
-********************************************************** Deployment startagies *****************************************
+********************************************************** Deployment stratagies *****************************************
 
 * Rolling Update (Default Strategy): The default deployment strategy, where Kubernetes gradually replaces old Pods with new ones without downtime.
 
