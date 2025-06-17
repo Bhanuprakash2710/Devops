@@ -333,32 +333,6 @@
 
 
 
-************************************************ Helm *****************************************************
-     
-* Helm is a package manager for Kubernetes. It simplifies application deployment by allowing you to define, install, and upgrade Kubernetes applications using Helm charts (pre-configured application resources). It reduces YAML repetition and makes deployments reusable and manageable.
-
-* Chart.yaml: Metadata about the chart (name, version, description)
-
-* values.yaml: Default configuration values
-
-* templates/: Contains Kubernetes resource templates (Deployment, Service, etc.)
-
-* helm install: Deploys a new release
-
-* helm upgrade: Applies changes to an existing release     
-      
-* Get revision list with: helm history <release-name>
-* helm rollback <release-name> <revision-number>
-
-* Use helmify to convert the kubernetes manifest into helm charts
-* 1. pwd should the deployment-service.yaml files
-* 2. Run cat *.yaml | helmify helm-chart-folder-name
-* 3. Check the files.
-
-* Helm packages templates into charts, supports versioning, upgrades, rollbacks, and value overrides — making it better for managing complex apps.
-
-
-
 
 ********************************************************** Deployment stratagies *****************************************
 
@@ -455,6 +429,8 @@ spec:
       targetPort: 8080  # Port on the Pod (containerPort)
       nodePort: 30080   # Port on the Node (optional)
 
+* container port in deployment should match with Traget port in service.
+
 -> Here's what this means:
 
 Container	8080	Where the app runs inside the pod
@@ -465,7 +441,31 @@ NodePort	30080	Exposes to external traffic (cluster node)
 
 
 
+************************************************ Helm *****************************************************
+     
+* Helm is a package manager for Kubernetes. It simplifies application deployment by allowing you to define, install, and upgrade Kubernetes applications using Helm charts (pre-configured application resources). It reduces YAML repetition and makes deployments reusable and manageable.
 
+* Chart.yaml: Metadata about the chart (name, version, description)
+
+* values.yaml: Default configuration values
+
+* templates/: Contains Kubernetes resource templates (Deployment, Service, etc.)
+
+* helm install: Deploys a new release
+
+* helm upgrade: Applies changes to an existing release     
+      
+* Get revision list with: helm history <release-name>
+* helm rollback <release-name> <revision-number>
+
+* Use helmify to convert the kubernetes manifest into helm charts
+* 1. pwd should the deployment-service.yaml files
+* 2. Run cat *.yaml | helmify helm-chart-folder-name
+* 3. Check the files.
+
+* Helm packages templates into charts, supports versioning, upgrades, rollbacks, and value overrides — making it better for managing complex apps.
+
+* Helm create folder-name will create the values.yaml, chart.yaml, templates and charts
 
 
 
