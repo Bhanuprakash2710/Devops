@@ -4,13 +4,13 @@
 
 * Master Node : master node conatains etcd , kube-apiserver, kube-scheduler , kube controller manager and cloud controller manager 
 
--> kube-apiserver: It used to interact with k8s cluster and exposes the k8s apis . kubectl, user , master node components like kube controller manager and worke node components like kubelet everything will talk with apiserver.
+-> kube-apiserver: It used to interact with k8s cluster and exposes the k8s apis . kubectl, user , master node components like kube controller manager and worker node components like kubelet everything will talk with apiserver.
 
 -> etcd: It is like database for k8s cluster . It stores all the master and worker nodes data inside it. Like the amount of space in each node , amount of space used by each node and amount of space left in the node .
 
 -> kube-scheduler: It will schedule all the pods and also distributes all the containes accross the nodes. It will also assign pods to nodes. 
 
--> kube controller manager: It is responsible for noticing and responding when node or container goes down . It will make decesions to make the containers or nodes up.
+-> kube controller manager: It is responsible for noticing and responding when node or container goes down . It will make decisions to make the containers or nodes up. Manages deployments and rollout of pods. When ever a pod goes down the kube-controller-manager notices the drop (via the API server) and spawns a new pod to meet the replica requirement.
 
 -> cloud controller manager: It is not present for on-premsis k8s cluster . It will present in cloud-providers only . If a node is not responding it will check in the cloud provider that the node is deleted or not.
 
@@ -18,7 +18,7 @@
 
 -> kubelet: It runs in every node in cluster . It will make sure that all the containers are running in a pod on node.
 
--> kube-proxy: It maintains network rules on nodes. It will allow network communication to pods.
+-> kube-proxy: It maintains network rules on nodes. It will allow network communication to pods. It will route the traffic to the right pods.
 
 * Both the master and worker node has container runtime , where all the k8s components runs.
 
@@ -33,7 +33,7 @@
 
 * k8s will directly dont deploy containers. Containers are encapsulated into k8s pods.
 
-* To scale up we will create a new pod and to scale down we will delete a new pod.
+* To scale up we will create a new pod and to scale down we will delete a pod.
 
 * We cannot have multiple containers of same kind in a single pod.
 
@@ -79,13 +79,19 @@
  
 * To create a Headless service use clusterIp: none
 
+* Ingress acts as a entry point for external traffic into the k8s cluster and manages access to the services within the cluster.
+
 * Ingress is a advanced loadbalancer service which provides context path based routing .
  
 * Ingress service provides a way to expose multiple services using a single external IP and route traffic based on hostnames or paths.
 
+* Why we use ingress means Creating a LoadBalancer service for each app (costly) and also Expose services via NodePort (less secure and harder to manage).
+
 * Single application	                     LoadBalancer
   Microservices architecture	             Ingress (with an Ingress Controller)
   Internal communication between service     ClusterIP (default)
+
+
 
 
  
@@ -128,6 +134,19 @@
 * When load becomes more on the existing pods , k8s enables us to easily scale the application , adding additional pods as needed. This is going to seamless and fast.
   
 * To check for any errors or logs use -> kubectl describe rs rs-name.
+
+* You want to run a fixed set of pods and manage their lifecycle manually without using rolling updates, version tracking, or rollbacks — which are built-in features of a Deployment.
+
+📌 Example Scenario:
+You’re running a batch processing job or a stateless debug/test app where:
+
+You don't want version history.
+
+You don’t need rolling updates.
+
+You want tight control over the pod definitions.
+
+You want to start N identical pods and delete the ReplicaSet when done.
 
 
 
@@ -222,7 +241,7 @@
 
 * k8s Startup probe let k8s knows wheather our application in container inside pod is started or not .
 
-* startup probe has higher priority over rediness and liveness probes . until the startup probe succeed the remaining probes will be in the disable state.
+* startup probe has higher priority over readiness and liveness probes . until the startup probe succeed the remaining probes will be in the disable state.
 
 * startup probes are useful in the situation where our apps can take longer time to start or could fail while start .
 
@@ -324,6 +343,7 @@
       services          v1
       Deployment       apps/v1
       Replicasets      apps/v1
+      ingress          networking.k8s.io/v1
       
       
 * To link a deplopyment and a service  copy the selector, spec-> template-> metadata-> labels-> app part of deployment into selectors part of a service.
@@ -471,7 +491,20 @@ NodePort	30080	Exposes to external traffic (cluster node)
 
 
 
+***************************************** Imp points ***********************************************
 
+* There are two main reasons to deploy the application using k8s instaed of docker 
+
+-> Auto healing 
+
+-> Auto scaling 
+
+* kubectl get all will display all the resources running in k8s cluster.
+
+* What happens if a Pod resource needs to grow beyond the assigned limits?
+
+-> If a Pod’s memory consumption exceeds its assigned memory limit, Kubernetes immediately kills the container with an out of memory (OOM) error. The container restarts if a restart policy is defined.
+Unlike memory, if a Pod exceeds its assigned CPU limit, it is not killed. Instead, Kubernetes throttles CPU usage, causing the application to slow down.
 
 
 

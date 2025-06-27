@@ -50,19 +50,26 @@
 
 * We use add in dockerfile to copy , extract the .tar files and download the files from url .
 
+*  Variant	    Size	           Base OS	                           Pros	                                                       Cons
+
+-> openjdk	    Large		   Debian	  			   Full-featured, good for dev	                               Heavy, not optimized for prod
+
+-> openjdk-slim	    Medium		   Debian				   Smaller, fewer attack vectors	           	       Lacks some dev/debug tools
+
+-> openjdk-alpine   Smallest	           Alpine				   Tiny, fast to download/deploy	                       Compatibility issues with some libs
+
+
+* To debug the docker container by going into its directories use it will take the root previlages access -> sudo -i  
 
 
 
- 
-
-*************** To see the docker container by going into its directories use -> sudo -i  ***************************************
 
 
 ***************************************** volumes *************************************
 
-* In docker the data will be stored inside of the container i.e in read-write layer. It is stored with the help of volumes.
+* In docker the data will be stored in local system where the docker cintainer is running i.e in read-write layer. It is stored with the help of volumes.
 
-* Volumes will be used when the container is stopped suddenly the data loss should not happen , so the data will be stored inside of container.
+* Volumes will be used when the container is stopped suddenly the data loss should not happen , so the data will be stored in local system.
 
 * You can set up volumes to connect some folder outside of a container to a folder inside of a container.
 
@@ -72,6 +79,7 @@
 
 * When the container restarts then the data in the local will be copied inside the container , also when the data is added to a running container then the data will be copied to local .
 
+* Volumes mostly used for the database containers.
 
 
 
@@ -80,7 +88,7 @@
 
 * Using network container to container communication will happen 
 
-* A container needs to communicate with any www page there will be no extra settings.
+* A container needs to communicate with any container or internet there will be no extra settings.
 
 * For example there is outside api where the application needs to communicate with it , then there will be no issue in communication.
 
@@ -101,7 +109,35 @@
   - DB_USER=yourusername
   - DB_PASS=yourpassword
 
-* 
+* Docker networking modes:
+
+* bridge (Default for standalone containers)
+
+-> Behavior: Each container gets its own internal IP and connects via a private bridge network.
+
+-> Use Case: Isolated communication between containers on the same host.
+
+* host
+
+-> Behavior: Container shares the host’s network stack directly (no isolation).
+
+-> Use Case: When performance is critical (e.g., high-speed networking) or you need direct access to host ports.
+ 
+* none
+
+-> Behavior: No network interface is attached to the container.
+
+-> Use Case: Security or testing environments where network access is not required.
+
+
+* container:<name or id>
+
+-> Behavior: Shares the network namespace of another container.
+
+-> Use Case: When multiple containers must behave like a single unit (e.g., for sidecars).
+
+
+
 
 
 
@@ -118,6 +154,7 @@
 * Example : docker run -d -p 8080:80 nginx
 
 * Host Port	8080
+
 * Container Port	80
 
 * This means: requests to localhost:8080 on your machine go to port 80 inside the nginx container.
@@ -129,8 +166,46 @@
 * At the end the port at which appication is running at the code level should match with port inside the container.
 
 
+************************************************************ Dockerfile ****************************************
 
 
+# Use a base image with OpenJDK, optimized for smaller size
+FROM openjdk:17-jdk-slim
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the compiled JAR file from your build context into the container
+# Replace 'your-application.jar' with the actual name of your JAR file
+COPY target/your-application.jar /app/your-application.jar
+
+# Expose the port your application listens on (e.g., for a web application)
+# Adjust if your application uses a different port
+EXPOSE 8080
+
+# Define the command to run your application when the container starts
+ENTRYPOINT ["java", "-jar", "your-application.jar"]
+
+
+
+
+**************************************************************Multi build docker file *******************************
+
+
+
+# Stage 1: Build the application (Multi-stage build for smaller image size)
+FROM maven:3.8.6-openjdk-17 AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Stage 2: Create the final runtime image
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
+EXPOSE 8080 # Or the port your application listens on
+ENTRYPOINT ["java", "-jar", "app.jar"]
 
 
 
