@@ -45,6 +45,8 @@
 
 * If any error with the pod use kubectl describe pod pod-name , under this event section you can see logs . By checking this logs we can debug the error.
 
+* kubectl logs <pod-name> will give the logs of that particular pod
+
 * To debug by entering into container of a pod use -> kubectl exec -it pod-name -- /bin/bash
 
 * kubectl expose pod first-pod --type=LoadBalancer --port=80 --target-port=5000 --name=first-service -> to expose any pod as service 
@@ -79,9 +81,9 @@
  
 * To create a Headless service use clusterIp: none
 
-* Ingress acts as a entry point for external traffic into the k8s cluster and manages access to the services within the cluster.
-
 * Ingress is a advanced loadbalancer service which provides context path based routing .
+
+* Ingress acts as a entry point for external traffic into the k8s cluster and manages access to the services within the cluster.
  
 * Ingress service provides a way to expose multiple services using a single external IP and route traffic based on hostnames or paths.
 
@@ -123,6 +125,23 @@
 * To pause the deployment use -> kubectl rollout pause deployment/first-deployment
 
 * To resume the deployment use -> kubectl rollout resume deployment/first-deployment
+
+
+
+
+************************************************************************** Deployment rollback ***********************************************
+
+
+
+
+* kubectl rollout undo deployment <deployment-name> This will rollout the deployment to previous version
+
+* kubectl rollout history deployment <deployment-name> To see details of a specific revision:
+
+* kubectl rollout deployment <deployment-name> --revision=<revision-number>
+
+
+
   
   
 ************************************************************************** Replica sets *******************************************************
@@ -346,7 +365,7 @@ You want to start N identical pods and delete the ReplicaSet when done.
       ingress          networking.k8s.io/v1
       
       
-* To link a deplopyment and a service  copy the selector, spec-> template-> metadata-> labels-> app part of deployment into selectors part of a service.
+* To link a deployment and a service  copy the selector, spec-> template-> metadata-> labels-> app part of deployment into selectors part of a service.
 
 * In docker we use networks to communicate with in containers. In k8s we services to communicate with pods.
 
@@ -476,16 +495,32 @@ NodePort	30080	Exposes to external traffic (cluster node)
 * helm upgrade: Applies changes to an existing release     
       
 * Get revision list with: helm history <release-name>
+
 * helm rollback <release-name> <revision-number>
 
 * Use helmify to convert the kubernetes manifest into helm charts
+
 * 1. pwd should the deployment-service.yaml files
+
 * 2. Run cat *.yaml | helmify helm-chart-folder-name
+
 * 3. Check the files.
 
 * Helm packages templates into charts, supports versioning, upgrades, rollbacks, and value overrides — making it better for managing complex apps.
 
 * Helm create folder-name will create the values.yaml, chart.yaml, templates and charts
+
+* mychart/
+├── Chart.yaml            # Required: Metadata about the chart (name, version, etc.)
+├── values.yaml           # Default configuration values for the chart
+├── charts/               # (Optional) Subcharts directory
+├── templates/            # Contains Kubernetes manifest templates
+│   ├── deployment.yaml   # Template for Deployment
+│   ├── service.yaml      # Template for Service
+│   ├── ingress.yaml      # (Optional) Template for Ingress
+│   ├── _helpers.tpl      # (Optional) Template helpers (reusable snippets)
+│   └── NOTES.txt         # (Optional) Instructions printed after install
+└── .helmignore  
 
 
 
@@ -506,16 +541,36 @@ NodePort	30080	Exposes to external traffic (cluster node)
 -> If a Pod’s memory consumption exceeds its assigned memory limit, Kubernetes immediately kills the container with an out of memory (OOM) error. The container restarts if a restart policy is defined.
 Unlike memory, if a Pod exceeds its assigned CPU limit, it is not killed. Instead, Kubernetes throttles CPU usage, causing the application to slow down.
 
+* Init Containers are special containers that run before the main application containers in a pod start.
+
+-> They are designed to perform initialization tasks, such as setting up configuration files, initializing databases, or any other operation necessary for the proper functioning of the application.
+
+-> Init Containers run sequentially and complete their tasks before the primary containers start.
+
+-> If an Init Container fails to execute successfully, the entire pod initialization fails, and the pod restarts until the Init Containers complete successfully.
+
+* Sidecar Containers are additional containers that run alongside the main application container within the same pod.
+
+* They extend or enhance the functionality of the primary container by providing supporting processes, utilities, or services.
 
 
 
 
 
+********************************************************************* Questions *********************************************
 
 
+* We have kubectl why we use helm to deploy 
 
+* how to debug a pod in pending state
 
+* Difference between a pod and a container
 
+* Explain the steps in dockerfile 
+
+* Explain the cicd pipeline for the project 
+
+* 
 
 
 

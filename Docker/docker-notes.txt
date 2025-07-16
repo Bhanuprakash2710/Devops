@@ -67,7 +67,7 @@
 
 ***************************************** volumes *************************************
 
-* In docker the data will be stored in local system where the docker cintainer is running i.e in read-write layer. It is stored with the help of volumes.
+* In docker the data will be stored in local system where the docker container is running i.e in read-write layer. It is stored with the help of volumes.
 
 * Volumes will be used when the container is stopped suddenly the data loss should not happen , so the data will be stored in local system.
 
@@ -129,15 +129,11 @@
 
 -> Use Case: Security or testing environments where network access is not required.
 
-
 * container:<name or id>
 
 -> Behavior: Shares the network namespace of another container.
 
 -> Use Case: When multiple containers must behave like a single unit (e.g., for sidecars).
-
-
-
 
 
 
