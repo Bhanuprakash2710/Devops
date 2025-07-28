@@ -1,0 +1,8 @@
+n= int(input("Enter the number of socks: "))
+ar=[]
+for _ in range(n):
+    value = input("Enter the colour: ")
+    ar.append(value)
+for i in range(n):
+    print("pair is: " +  ar[i])
+print(set(ar))

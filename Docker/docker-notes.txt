@@ -185,22 +185,32 @@ ENTRYPOINT ["java", "-jar", "your-application.jar"]
 
 
 
-**************************************************************Multi build docker file *******************************
+**************************************************************Multistage build docker file *******************************
 
 
 
 # Stage 1: Build the application (Multi-stage build for smaller image size)
+
 FROM maven:3.8.6-openjdk-17 AS build
+
 WORKDIR /app
+
 COPY pom.xml .
+
 COPY src ./src
+
 RUN mvn clean package -DskipTests
 
 # Stage 2: Create the final runtime image
+
 FROM openjdk:17-jdk-slim
+
 WORKDIR /app
+
 COPY --from=build /app/target/*.jar app.jar
+
 EXPOSE 8080 # Or the port your application listens on
+
 ENTRYPOINT ["java", "-jar", "app.jar"]
 
 

@@ -543,6 +543,8 @@ Unlike memory, if a Pod exceeds its assigned CPU limit, it is not killed. Instea
 
 * Init Containers are special containers that run before the main application containers in a pod start.
 
+-> Example: If a db is running as a pod , in the main application we will add the db as init container to tell the db containers as started or not.
+
 -> They are designed to perform initialization tasks, such as setting up configuration files, initializing databases, or any other operation necessary for the proper functioning of the application.
 
 -> Init Containers run sequentially and complete their tasks before the primary containers start.
