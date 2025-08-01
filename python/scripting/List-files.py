@@ -9,6 +9,9 @@ for folder in folders:
     except FileNotFoundError:
         print("Folder Not Found in the given input")
         continue
+    except PermissionError:
+        print("Don't have persion for this folder")
+        continue
     print("Files in the folder " + folder + " are: ")
     for file in files:
         print(file)
