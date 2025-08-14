@@ -12,6 +12,7 @@ def update_server_config(file_path,key,value):
 
 file_path ="server.conf"
 key ="MAX_CONNECTIONS"
-value="999"
+value="789"
 
 update_server_config(file_path,key,value)
+
