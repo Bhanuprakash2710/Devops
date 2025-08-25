@@ -1,0 +1,6 @@
+- name: copying files within the remote server
+  hosts: App_Server
+  tasks:
+    - name: copy files from one folder to another
+      ansible.builtin.command: cp /home/ec2-user/some.txt /home/ec2-user/files
+        

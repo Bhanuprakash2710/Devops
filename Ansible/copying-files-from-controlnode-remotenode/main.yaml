@@ -1,0 +1,9 @@
+- name: copying files from control node to remote server
+  hosts: App_Server
+  tasks:
+    - name: copy files
+      ansible.builtin.copy:
+        src: /home/bhanuprakashgireddy/students_results.pdf #path of managed node i.e where the ansible-playbook cmd is running
+        dest: /home/ec2-user/files  # path of host server i.e the server given in the hosts.ini file
+        owner: ec2-user  # By which owner name the files should copy into the host server
+        group: ec2-user  # By which group name the file should copy into the host server
