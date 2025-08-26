@@ -190,6 +190,33 @@
 
 
 
+********************************************************************* Bank partner onboarding ****************************************
+
+* Create a folder with the bank name in the main directory
+
+* copy the existing pubic certificate and private key to the new bank folder
+
+* using the command the below .p12 file will be created 
+
+* openssl pkcs12 -export -inkey mykey.key -in mycert.crt -out mycert.p12 -name "alias" -certfile chain.crt 
+
+  -> -in mycert.crt → your public certificate
+
+  -> -inkey mykey.key → your private key
+
+  -> -out mycert.p12 → output .p12 file
+
+  -> -name "myalias" → alias for the key entry in the keystore
+
+  -> -certfile chain.crt → (optional) intermediate/root CA certificates	
+
+* Import the .p12 file into keystore using the below command
+
+* keytool -import -trustcacerts -alias root -file Thawte.crt -keystore keystore.p12
+
+
+
+
 
 
 
