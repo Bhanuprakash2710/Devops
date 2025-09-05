@@ -555,6 +555,16 @@ Unlike memory, if a Pod exceeds its assigned CPU limit, it is not killed. Instea
 
 * They extend or enhance the functionality of the primary container by providing supporting processes, utilities, or services.
 
+* Taints and Tolerations in Kubernetes are mechanisms that control which pods can run on which nodes.
+
+* Taint on Node = “I don’t want guests unless they have a pass.”
+
+* Toleration on Pod = “I have the pass to enter.”
+
+* Taints → set restrictions on nodes.
+
+* Tolerations → allow pods to bypass those restrictions.
+
 
 
 
@@ -574,6 +584,134 @@ Unlike memory, if a Pod exceeds its assigned CPU limit, it is not killed. Instea
 
 * 
 
+
+***************************************************************** Blue-Green Deployment implementation **************************************
+
+1. Create Two Deployments
+
+Blue Deployment → Current version (v1).
+
+Green Deployment → New version (v2) you want to release.
+
+Example:
+
+# blue-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-blue
+  labels:
+    app: myapp
+    version: blue
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+      version: blue
+  template:
+    metadata:
+      labels:
+        app: myapp
+        version: blue
+    spec:
+      containers:
+      - name: myapp
+        image: myapp:v1
+        ports:
+        - containerPort: 80
+
+
+# green-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-green
+  labels:
+    app: myapp
+    version: green
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+      version: green
+  template:
+    metadata:
+      labels:
+        app: myapp
+        version: green
+    spec:
+      containers:
+      - name: myapp
+        image: myapp:v2
+        ports:
+        - containerPort: 80
+
+2. Expose Using a Service
+
+Create a Service that points to only one version at a time.
+
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+spec:
+  selector:
+    app: myapp
+    version: blue   # 🔹 Initially routing to Blue
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer
+
+3. Deploy Blue First
+kubectl apply -f blue-deployment.yaml
+kubectl apply -f service.yaml
+
+
+At this point, the app is live with version v1.
+
+4. Deploy Green (New Version)
+kubectl apply -f green-deployment.yaml
+
+
+Now, both blue and green versions are running, but traffic is still going to blue.
+
+5. Test Green Deployment Internally
+
+You can test the green pods without exposing them to users:
+
+kubectl get pods -l app=myapp,version=green
+kubectl port-forward <green-pod-name> 8080:80
+
+
+Then visit:
+
+http://localhost:8080
+
+6. Switch Traffic to Green
+
+Update the Service selector from blue to green:
+
+kubectl patch service myapp-service -p '{"spec":{"selector":{"app":"myapp","version":"green"}}}'
+
+or 
+
+Go to the service.yaml file and change the version to green and  then use kubectl apply -f service.yaml
+
+7. Clean Up Old Version
+
+Once verified, you can scale down or delete the blue deployment:
+
+kubectl delete deployment myapp-blue
+
+🔹 Benefits
+
+Zero downtime switch.
+
+Easy rollback → just switch service selector back to blue.
 
 
 

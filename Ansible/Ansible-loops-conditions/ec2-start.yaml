@@ -1,0 +1,24 @@
+- hosts: localhost
+  connection: local
+  tasks:
+  - name: create an ec2 instances
+    amazon.aws.ec2_instance:
+      name: "{{ item.name }}"
+      key_name: "keypairforansible"
+      vpc_subnet_id: subnet-078bbf2fbfd3c5cfc
+      instance_type: t2.micro
+      security_group: default
+      region: us-east-1
+      aws_access_key: "{{ ec2_access_key }}"
+      aws_secret_key: "{{ ec2_secret_key }}"
+      network_interfaces:
+      - assign_public_ip: true
+      image_id: "{{ item.image }}"
+      tags:
+        environment: "{{ item.name }}"
+    loop: 
+      - { image: "ami-00ca32bbc84273381", name: "amazon-linux" }
+      - { image: "ami-0360c520857e3138f", name: "ubuntu-1" }
+      - { image: "ami-0360c520857e3138f", name: "ubuntu-2" } 
+
+      

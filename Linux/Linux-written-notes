@@ -34,6 +34,9 @@ UBUNTU_CODENAME=jammy
 
 * To list the users in the system -> /etc/passwd
 
+* find . -type f -size +100M -> To find the file in the current directory whose size in greater than 100mb
+
+
 ***************************************** cp rm  mv ************************************************
 
 

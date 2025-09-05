@@ -9,4 +9,8 @@
 
 * ansible-playbook -i Inventory/Hosts.ini ec2_create.yaml --vault-password-file vault.pass -> Execute the playbook with ansible vault
 
+* ssh-copy-id -f "-o IdentityFile /home/bhanuprakashgireddy/Aws-keys/keypairforansible.pem" ubuntu@54.160.244.146 -> this command will do the password less authentiocation for the ec2 instances
 
+* After that we can connect using ssh ec2-user@ip .
+
+* 
