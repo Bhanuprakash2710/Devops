@@ -4,7 +4,7 @@
 
 * We use COPY command to copy only the files .
 
-* But we use ADD command to copy files and also copt the executable files (like .jar files).
+* But we use ADD command to copy files and also copy the executable files (like .jar files) and also downloads the files from browser.
 
 * In Dockerfile we use  both CMD and ENTRYPOINT define commands to be run when a container starts, but they behave differently.
 
@@ -38,6 +38,8 @@
 
 * map port 8080 on the container to 38282 on the host. -> -p 38282:8080.
 
+* Here 38382 is the vm port and 8080 is the application port
+
 * To set environment variable to run command use -> docker run -d -e environmental_variable=value image_name
 
 * docker run -d --name webapp --network wep-sql-network -e DB-HOST=db-host -e DB-PASSWORD=db_pass123 --link mysqldb:mysqldb bhanuprakash2710/python-app:v1
@@ -60,6 +62,9 @@
 
 
 * To debug the docker container by going into its directories use it will take the root previlages access -> sudo -i  
+
+* To go into the docker container and debug we use docker -exec -it conatiner-id.
+
 
 
 
@@ -187,7 +192,9 @@ ENTRYPOINT ["java", "-jar", "your-application.jar"]
 
 **************************************************************Multistage build docker file *******************************
 
+* A multi-stage Dockerfile uses several FROM stages in one file. You build your app in an early stage that has all the heavy tooling, then copy only the finished output into a small final stage. Everything else is thrown away.
 
+* In production environments, applications require a **build process** to prepare for deployment. This build process involves tools like compilers, libraries, and dependencies that are often **not needed during runtime**. Multi-stage builds address this by separating the **build stage** from the **runtime stage**, creating lightweight production images.
 
 # Stage 1: Build the application (Multi-stage build for smaller image size)
 
@@ -215,17 +222,13 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 
 
 
+******************************* CMD vs ENTRYPOINT *****************************************
 
+* CMD Defines the default command to run when the container starts. Can be overridden using docker run <image-name> <command>
 
+* ENTRYPOINT Defines the command that will always run when the container starts. Can be appended with arguments using docker run.
 
-
-
-
-
-
-
-
-
+* To completely override the ENTRYPOINT, use the --entrypoint flag (though this is rarely needed if the image is used as intended). 
 
 
 
